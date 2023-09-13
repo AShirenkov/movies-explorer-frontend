@@ -1,0 +1,215 @@
+import './SearchForm.css';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import findLogo from '../../images/find.svg';
+import findShortFindOn from '../../images/find-shortOn.svg';
+import findShortFindOff from '../../images/find-shortOff.svg';
+
+function SearchForm() {
+  const {
+    register,
+
+    formState: { errors, isValid },
+    handleSubmit,
+
+    setValue
+  } = useForm({
+    mode: 'onBlur'
+  });
+  const [isShortSwitchOn, setIsShortSwitchOn] = useState(false);
+
+  //   useEffect(() => {
+  //     setIsShortSwitchOn(true);
+
+  //   }, []);
+
+  function onSwitcherShortClick(evt) {
+    evt.preventDefault();
+    setIsShortSwitchOn(!isShortSwitchOn);
+  }
+
+  function onSubmit(evt) {
+    evt.preventDefault();
+  }
+
+  return (
+    <section className='search-form'>
+      <form onSubmit={handleSubmit(onSubmit)} className='search-form__form'>
+        <div className='search-form__container'>
+          <div className='search-form__input-container'>
+            <img className='search-form__image' src={findLogo} alt='Иконка поиска' />
+
+            <input
+              type='text'
+              className='search-form__input'
+              placeholder='Фильм'
+              //   value={`${currentUser.name}`}
+              {...register('movie', {
+                required: 'Ввведите ключ для поиска'
+              })}
+            />
+          </div>
+
+          <button
+            type='submit'
+            disabled={!isValid}
+            onClick={onSubmit}
+            className='search-form__button-find opacity-button'
+          >
+            Найти
+          </button>
+        </div>
+        <div className='search-form__short-movie-container'>
+          <button
+            className='search-form__short-movie-button'
+            type='submit'
+            onClick={onSwitcherShortClick}
+          >
+            <img
+              className='search-form__switcher'
+              src={`${isShortSwitchOn ? findShortFindOn : findShortFindOff}`}
+              alt='Иконка переключателя'
+            />
+          </button>
+
+          <p className='search-form__short-movie-text'>Короткометражки</p>
+        </div>
+      </form>
+      <div className='search-form__input-error'>
+        {errors?.movie && <p className='search-form__input-error-text'>{errors?.movie?.message}</p>}
+      </div>
+    </section>
+  );
+}
+export default SearchForm;
+
+// import React, { useContext, useEffect, useState } from 'react';
+// import './Profile.css';
+// import Header from '../Header/Header';
+// import { useForm } from 'react-hook-form';
+// // import { Link } from 'react-router-dom';
+// import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+
+// function Profile({ isLoggedIn }) {
+//   const {
+//     register,
+
+//     formState: { errors, isValid },
+//     handleSubmit,
+
+//     setValue
+//   } = useForm({
+//     mode: 'onBlur'
+//   });
+
+//   const [isEditMode, setIsEditMode] = useState(false);
+
+//   const currentUser = useContext(CurrentUserContext);
+
+//   function onEditClick(evt) {
+//     // console.log('нажата клавиша редактировать');
+//     setIsEditMode(true);
+//     evt.preventDefault();
+//   }
+//   function onLogoutClick(data) {
+//     console.log('нажата клавиша выйти из аккаунта');
+
+//     // setIsEditMode(true);
+//   }
+//   const onSubmit = data => setIsEditMode(false);
+
+//   useEffect(() => {
+//     setValue('name', currentUser.name);
+
+//     setValue('email', currentUser.email);
+//     // eslint-disable-next-line
+//   }, [currentUser]);
+//   return (
+//     <>
+//       <Header isLoggedIn={isLoggedIn} />
+//       <div className='profile'>
+//         <h1 className='profile__title'>{`Привет, ${currentUser.name}!`}</h1>
+
+//         <form onSubmit={handleSubmit(onSubmit)} className='profile__form'>
+//           <div className='profile__input-container'>
+//             <p className='profile__input-label'>Имя</p>
+//             <input
+//               type='text'
+//               className='profile__input profile__input_type_name'
+//               placeholder='Имя'
+//               disabled={!isEditMode}
+//               //   value={`${currentUser.name}`}
+//               {...register('name', {
+//                 required: 'Поле обязательно к заполнению.',
+//                 minLength: {
+//                   value: 3,
+//                   message: 'Введите имя длинной от 3 символов'
+//                 }
+//               })}
+//             />
+//             <div className='profile__input-error'>
+//               {errors?.name && <p className='profile__input-error-text'>{errors?.name?.message}</p>}
+//             </div>
+//           </div>
+
+//           <div className='profile__input-container'>
+//             <p className='profile__input-label'>E-mail</p>
+//             <input
+//               type='text'
+//               className='profile__input'
+//               placeholder='E-mail'
+//               disabled={!isEditMode}
+//               //   value={`${currentUser.email}`}
+//               {...register('email', {
+//                 required: 'Поле обязательно к заполнению.',
+//                 pattern: {
+//                   value:
+//                     // eslint-disable-next-line
+//                     /^(?:[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/,
+//                   message: 'Введенный  E-mail не допустим.'
+//                 }
+//               })}
+//             />
+//             <div className='profile__input-error'>
+//               {errors?.email && (
+//                 <p className='profile__input-error-text'>{errors?.email?.message}</p>
+//               )}
+//             </div>
+//           </div>
+//           {!isEditMode ? (
+//             <>
+//               <button
+//                 type='button'
+//                 // disabled={!isValid}
+//                 className='profile__button profile__button_type_edit'
+//                 onClick={onEditClick}
+//               >
+//                 Редактировать
+//               </button>
+
+//               <button
+//                 type='button'
+//                 // disabled={!isValid}
+//                 className='profile__button profile__button_type_exit'
+//                 onClick={onLogoutClick}
+//               >
+//                 Выйти из аккаунта
+//               </button>
+//             </>
+//           ) : (
+//             <>
+//               <button
+//                 type='submit'
+//                 disabled={!isValid}
+//                 className='profile__button-save opacity-button'
+//               >
+//                 Сохранить
+//               </button>
+//             </>
+//           )}
+//         </form>
+//       </div>
+//     </>
+//   );
+// }
+// export default Profile;

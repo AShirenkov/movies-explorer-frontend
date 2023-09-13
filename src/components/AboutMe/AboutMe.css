@@ -1,0 +1,156 @@
+.about {
+  margin: 0 auto;
+  margin-bottom: 100px;
+  margin-top: 110px;
+  padding: 0 70px;
+}
+
+.about__link {
+  text-decoration: none;
+  color: #ffffff;
+  padding-top: 99px;
+}
+
+.about__git {
+  margin: 0;
+  padding: 0;
+  padding-top: 99px;
+  font-size: 14px;
+  line-height: normal;
+  font-style: normal;
+  font-weight: 500;
+
+  text-align: left;
+}
+.about__card {
+  margin-top: 66px;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  gap: 49px;
+}
+.about__description {
+  max-width: 600px;
+}
+.about__name {
+  margin: 0;
+  padding: 0;
+
+  font-size: 50px;
+  line-height: 1.16;
+  font-style: normal;
+  font-weight: 400;
+
+  letter-spacing: -2px;
+
+  text-align: left;
+  color: #ffffff;
+}
+
+.about__profession {
+  margin: 0;
+  padding: 0;
+
+  margin-top: 18px;
+  font-size: 18px;
+  line-height: 1.11;
+  font-style: normal;
+  font-weight: 500;
+
+  text-align: left;
+  color: #ffffff;
+}
+.about__story {
+  margin: 0;
+  padding: 0;
+  margin-top: 26px;
+  margin-bottom: 99px;
+  font-size: 14px;
+  line-height: 1.57;
+  font-style: normal;
+  font-weight: 400;
+
+  text-align: left;
+  color: #ffffff;
+}
+.about__photo {
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+/* .about__line {
+  border-color: #dadada;
+  margin: 0;
+  padding: 0;
+  margin-top: 23px;
+  
+} */
+
+@media (max-width: 900px) {
+  .about {
+    margin-bottom: 91px;
+    margin-top: 90px;
+    padding: 0 50px;
+  }
+
+  .about__name {
+    font-size: 40px;
+    line-height: 1;
+
+    letter-spacing: -1.6px;
+  }
+
+  .about__profession {
+    margin-top: 16px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .about__story {
+    margin-top: 21px;
+    margin-bottom: 85px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .about__photo {
+    max-width: 255px;
+    max-height: 307px;
+  }
+}
+
+@media (max-width: 450px) {
+  .about {
+    margin-bottom: 69px;
+    margin-top: 49px;
+    padding: 0 14px;
+  }
+
+  .about__name {
+    font-size: 30px;
+
+    letter-spacing: -1.2px;
+  }
+
+  .about__profession {
+    margin-top: 23px;
+    font-size: 11px;
+    line-height: 1.45;
+  }
+  .about__story {
+    margin-top: 21px;
+    margin-bottom: 39px;
+    font-size: 11px;
+    line-height: 1.45;
+  }
+  .about__photo {
+    max-width: 292px;
+    max-height: 352px;
+  }
+
+  .about__card {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    gap: 42px;
+  }
+}

@@ -1,0 +1,27 @@
+.header-block {
+  margin: 0;
+  padding: 0;
+  /* margin-top: 110px; */
+  font-size: 22px;
+  line-height: normal;
+  font-style: normal;
+  font-weight: 400;
+
+  letter-spacing: -0.88px;
+
+  text-align: left;
+  color: #ffffff;
+  padding-bottom: 23px;
+
+  border-bottom: 1px solid #dadada;
+}
+
+@media (max-width: 900px) {
+  .header-block {
+    font-size: 18px;
+
+    letter-spacing: -0.72px;
+
+    padding-bottom: 29px;
+  }
+}

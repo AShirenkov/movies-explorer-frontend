@@ -1,0 +1,155 @@
+.login {
+  margin: 0 auto;
+  max-width: 396px;
+  margin-top: 70px;
+  display: flex;
+  flex-direction: column;
+}
+
+.login__title {
+  padding: 0;
+  margin: 0;
+  margin-top: 38px;
+  font-size: 24px;
+  line-height: normal;
+  font-style: normal;
+  font-weight: 500;
+  text-align: left;
+}
+.login__form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 40px;
+  width: 396px;
+  /* width: 100%; */
+}
+.login__input-label {
+  font-size: 10px;
+  line-height: normal;
+  font-style: normal;
+  font-weight: 400;
+  text-align: left;
+  color: #8b8b8b;
+  margin: 0;
+  padding: 0;
+}
+.login__input {
+  background: none;
+
+  border: none;
+  border-bottom: 1px solid #424242;
+
+  font-size: 14px;
+  line-height: normal;
+  font-style: normal;
+  font-weight: 500;
+  text-align: left;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 12px;
+  margin-top: 5px;
+  padding-bottom: 10px;
+}
+
+.login__input_type_pass {
+  color: #ee3465;
+  font-weight: 400;
+}
+
+.login__input-error {
+  height: 20px;
+}
+
+.login__button {
+  border-radius: 3px;
+  background: #4285f4;
+  height: 45px;
+  margin-top: 196px;
+  box-shadow: none;
+  border: none;
+
+  color: #fff;
+  font-size: 14px;
+  line-height: normal;
+  font-style: normal;
+  font-weight: 500;
+  text-align: center;
+}
+.login__button:disabled {
+  opacity: 0.5;
+  background: #f8f8f8;
+  color: #c2c2c2;
+}
+
+.login__register {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  margin-top: 17px;
+  align-self: center;
+}
+
+.login__text {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  line-height: normal;
+  font-style: normal;
+  text-align: left;
+  font-weight: 400;
+}
+
+.login__text_type_register {
+  color: #8b8b8b;
+}
+.login__text_type_link {
+  text-decoration: none;
+  color: #4285f4;
+  text-align: left;
+}
+
+.login__input-error-text {
+  /* line-height: 12px; */
+  font-size: 10px;
+  line-height: normal;
+  font-style: normal;
+  font-weight: 400;
+  text-align: left;
+  color: #ee3465;
+  margin-top: 10px;
+}
+@media (max-width: 900px) {
+  .login {
+    margin-top: 231px;
+  }
+  /* .register__button {
+      margin-top: 127px;
+    } */
+}
+@media (max-width: 450px) {
+  .login {
+    max-width: 260px;
+    margin-top: 56px;
+    align-items: center;
+  }
+  .login__title {
+    margin-top: 47px;
+  }
+  .login__form {
+    margin-top: 80px;
+    width: 260px;
+  }
+  .login__button {
+    margin-top: 286px;
+    font-size: 12px;
+  }
+  .login__text {
+    font-size: 12px;
+  }
+  .login__register {
+    margin-top: 13px;
+  }
+}
