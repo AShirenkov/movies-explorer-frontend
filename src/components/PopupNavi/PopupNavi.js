@@ -18,6 +18,7 @@ function PopupNavi({ isPopupOpen, onButtonCloseClick }) {
               isMain ? 'popup-navi__text_type_active' : 'popup-navi__text_type_inactive'
             }`}
             to='/'
+            onClick={onButtonCloseClick}
           >
             Главная
           </Link>
@@ -26,6 +27,7 @@ function PopupNavi({ isPopupOpen, onButtonCloseClick }) {
               isMovies ? 'popup-navi__text_type_active' : 'popup-navi__text_type_inactive'
             }`}
             to='/movies'
+            onClick={onButtonCloseClick}
           >
             Фильмы
           </Link>
@@ -34,12 +36,13 @@ function PopupNavi({ isPopupOpen, onButtonCloseClick }) {
               isSavedMovies ? 'popup-navi__text_type_active' : 'popup-navi__text_type_inactive'
             }`}
             to='/saved-movies'
+            onClick={onButtonCloseClick}
           >
             Сохраненные фильмы
           </Link>
         </div>
 
-        <Link className='popup-navi__account' to='/profile'>
+        <Link className='popup-navi__account' to='/profile' onClick={onButtonCloseClick}>
           <p className='popup-navi__account-text'>Аккаунт</p>
           <img
             src={logo}
