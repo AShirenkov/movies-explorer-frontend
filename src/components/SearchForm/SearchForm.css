@@ -164,7 +164,7 @@
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 500px) {
   .search-form__form {
     display: flex;
     flex-direction: column;

@@ -91,6 +91,7 @@
   gap: 6px;
   margin-top: 17px;
   align-self: center;
+  margin-bottom: 70px;
 }
 
 .register__text {
@@ -130,6 +131,9 @@
   /* .register__button {
     margin-top: 127px;
   } */
+  .register__login {
+    margin-bottom: 232px;
+  }
 }
 @media (max-width: 450px) {
   .register {
@@ -153,5 +157,6 @@
   }
   .register__login {
     margin-top: 13px;
+    margin-bottom: 30px;
   }
 }

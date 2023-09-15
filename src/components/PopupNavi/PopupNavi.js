@@ -14,7 +14,7 @@ function PopupNavi({ isPopupOpen, onButtonCloseClick }) {
       <div className={`popup-navi ${isPopupOpen ? 'popup-navi_opened' : ''}`}>
         <div className='popup-navi__movies-container'>
           <Link
-            className={`popup-navi__text ${
+            className={`popup-navi__text opacity-link ${
               isMain ? 'popup-navi__text_type_active' : 'popup-navi__text_type_inactive'
             }`}
             to='/'
@@ -23,7 +23,7 @@ function PopupNavi({ isPopupOpen, onButtonCloseClick }) {
             Главная
           </Link>
           <Link
-            className={`popup-navi__text ${
+            className={`popup-navi__text opacity-link ${
               isMovies ? 'popup-navi__text_type_active' : 'popup-navi__text_type_inactive'
             }`}
             to='/movies'
@@ -32,7 +32,7 @@ function PopupNavi({ isPopupOpen, onButtonCloseClick }) {
             Фильмы
           </Link>
           <Link
-            className={`popup-navi__text ${
+            className={`popup-navi__text opacity-link ${
               isSavedMovies ? 'popup-navi__text_type_active' : 'popup-navi__text_type_inactive'
             }`}
             to='/saved-movies'
@@ -42,7 +42,11 @@ function PopupNavi({ isPopupOpen, onButtonCloseClick }) {
           </Link>
         </div>
 
-        <Link className='popup-navi__account' to='/profile' onClick={onButtonCloseClick}>
+        <Link
+          className='popup-navi__account opacity-link'
+          to='/profile'
+          onClick={onButtonCloseClick}
+        >
           <p className='popup-navi__account-text'>Аккаунт</p>
           <img src={logo} alt='Иконка аккаунта' className='popup-navi__account-logo' />
         </Link>

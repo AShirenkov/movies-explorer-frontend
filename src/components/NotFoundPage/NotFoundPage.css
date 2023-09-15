@@ -28,6 +28,7 @@
 
   color: #4285f4;
   text-decoration: none;
+  margin-bottom: 60px;
 }
 .not-found__text_type_title {
   margin-top: 246px;
@@ -37,6 +38,9 @@
 @media (max-width: 900px) {
   .not-found__text_type_title {
     margin-top: 406px;
+  }
+  .not-found__text_type_link {
+    margin-bottom: 222px;
   }
 }
 
@@ -52,5 +56,6 @@
   .not-found__text_type_link {
     margin-top: 284px;
     font-size: 12px;
+    margin-bottom: 30px;
   }
 }

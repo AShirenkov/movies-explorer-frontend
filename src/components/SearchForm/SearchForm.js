@@ -1,5 +1,5 @@
 import './SearchForm.css';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import findLogo from '../../images/find.svg';
 import findShortFindOn from '../../images/find-shortOn.svg';
@@ -10,9 +10,7 @@ function SearchForm() {
     register,
 
     formState: { errors, isValid },
-    handleSubmit,
-
-    setValue
+    handleSubmit
   } = useForm({
     mode: 'onBlur'
   });

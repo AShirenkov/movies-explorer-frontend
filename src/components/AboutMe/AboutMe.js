@@ -22,6 +22,7 @@ function AboutMe() {
           <a
             href='https://github.com/AShirenkov'
             target='_blank'
+            rel='noreferrer'
             className='about__link about__git opacity-button'
           >
             Github

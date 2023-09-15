@@ -19,10 +19,23 @@
 .profile__form {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  justify-content: space-between;
+  /* gap: 4px; */
   margin-top: 122px;
+
   /* width: 405px; */
   /* width: 100%; */
+}
+.profile__inputs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.profile__buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 70px;
 }
 .profile__input-container {
   display: grid;
@@ -180,6 +193,9 @@
   .profile__button-save {
     margin-top: 191px;
   }
+  .profile__buttons-container {
+    margin-bottom: 269px;
+  }
 }
 
 @media (max-width: 450px) {
@@ -200,5 +216,8 @@
   }
   .profile__button {
     font-size: 12px;
+  }
+  .profile__buttons-container {
+    margin-bottom: 40px;
   }
 }

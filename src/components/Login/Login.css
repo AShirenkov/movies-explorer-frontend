@@ -90,6 +90,7 @@
   gap: 6px;
   margin-top: 17px;
   align-self: center;
+  margin-bottom: 70px;
 }
 
 .login__text {
@@ -128,6 +129,9 @@
   /* .register__button {
       margin-top: 127px;
     } */
+  .login__register {
+    margin-bottom: 232px;
+  }
 }
 @media (max-width: 450px) {
   .login {
@@ -151,5 +155,6 @@
   }
   .login__register {
     margin-top: 13px;
+    margin-bottom: 30px;
   }
 }
