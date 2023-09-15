@@ -18,7 +18,7 @@ function Login() {
   return (
     <div className='login'>
       <Link className='login__logo' to='/'>
-        <img src={logo} alt='Лого Место Россия' />
+        <img src={logo} alt='иконка перехода на главную' />
       </Link>
       <h1 className='login__title'>Рады видеть!</h1>
 

@@ -44,13 +44,7 @@ function PopupNavi({ isPopupOpen, onButtonCloseClick }) {
 
         <Link className='popup-navi__account' to='/profile' onClick={onButtonCloseClick}>
           <p className='popup-navi__account-text'>Аккаунт</p>
-          <img
-            src={logo}
-            alt='Иконка аккаунта'
-            className={`popup-navi__account-logo ${
-              isMain ? 'popup-navi__account-logo_type_main' : 'popup-navi__account-logo_type_other'
-            }`}
-          />
+          <img src={logo} alt='Иконка аккаунта' className='popup-navi__account-logo' />
         </Link>
         <button
           type='button'

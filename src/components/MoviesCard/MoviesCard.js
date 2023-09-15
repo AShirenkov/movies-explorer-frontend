@@ -2,10 +2,6 @@ import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import './MoviesCard.css';
 
-import cardLike from '../../images/liked.svg';
-import cardDislike from '../../images/disliked.svg';
-import cardRemoveSaved from '../../images/saved-remove.svg';
-
 function MoviesCard({ name, duration, imgLink }) {
   const currentLocation = useLocation();
   const [isLiked, setIsLiked] = useState(false);
@@ -28,23 +24,21 @@ function MoviesCard({ name, duration, imgLink }) {
   return (
     <div className='movies-card'>
       <div className='movies-card__img-container'>
-        <img
-          src={imgLink}
-          alt={name}
-          // onClick={handleClick}
-          className='movies-card__img'
-        />
+        <img src={imgLink} alt={name} className='movies-card__img' />
       </div>
 
       <div className='movies-card__container'>
         <h2 className='movies-card__title'>{name}</h2>
 
-        <img
+        <button
+          type='button'
           onClick={onSavedClick}
-          src={`${isSavedMovies ? cardRemoveSaved : isLiked ? cardLike : cardDislike}`}
-          alt='Картинка кнопка для отображения сохраненного состояния'
-          className={`${
-            isSavedMovies ? 'movies-card__remove-button' : 'movies-card__saved-button'
+          className={`movies-card__button opacity-button ${
+            isSavedMovies
+              ? 'movies-card__button_mode_remove-save'
+              : isLiked
+              ? 'movies-card__button_mode_like'
+              : 'movies-card__button_mode_dislike'
           }`}
         />
       </div>

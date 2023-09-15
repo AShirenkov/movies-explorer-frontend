@@ -67,19 +67,20 @@
   /* min-width: 26px;
   min-height: 26px; */
   border-radius: 50px;
-  background: #0f4157;
+  /* background: #0f4157; */
+  background: #313131;
   width: 10px;
   height: 10px;
   /* margin: 8px; */
   padding: 8px;
 }
-.popup-navi__account-logo_type_main {
+/* .popup-navi__account-logo_type_main {
   background: #0f4157;
 }
 
 .popup-navi__account-logo_type_other {
   background: #313131;
-}
+} */
 
 .popup-navi__text {
   margin: 0;
