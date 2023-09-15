@@ -53,6 +53,7 @@
   .promo__title {
     text-align: center;
     align-self: center;
+    padding: 0 5px;
   }
 
   .promo__img {

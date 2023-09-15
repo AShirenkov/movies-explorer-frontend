@@ -11,7 +11,6 @@ function AboutMe() {
       <hr className='about__line' /> */}
       <HeaderBlock title={'Студент'} />
       <div className='about__card'>
-        <img src={myPhoto} alt='Фотография Александра' className='about__photo' />
         <div className='about__description'>
           <p className='about__name'>Александр</p>
           <p className='about__profession'>Фронтенд-разработчик, 38 лет</p>
@@ -29,6 +28,7 @@ function AboutMe() {
             Github
           </a>
         </div>
+        <img src={myPhoto} alt='Фотография Александра' className='about__photo' />
       </div>
     </section>
   );

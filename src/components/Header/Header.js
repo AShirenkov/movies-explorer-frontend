@@ -1,5 +1,4 @@
 import logo from '../../images/logo.svg';
-import logoMenu from '../../images/burger.png';
 import './Header.css';
 import HeaderLogin from '../HeaderLogin/HeaderLogin';
 import { Link, useLocation } from 'react-router-dom';
@@ -12,14 +11,18 @@ function Header({ isLoggedIn, isBurger, onBurgerClick }) {
   return (
     <header className={`header ${isMain ? 'header_background_full' : 'header_background_clear'} `}>
       <Link className='header__link' to='/'>
-        <img src={logo} alt='Лого Место Россия' />
+        <img className='opacity-button' src={logo} alt='Иконка перехода на главную страницу' />
       </Link>
       {!isLoggedIn ? (
         <HeaderLogin />
       ) : !isBurger ? (
         <HeaderNavi />
       ) : (
-        <img onClick={onBurgerClick} src={logoMenu} alt='Кнопка перехода в меню' />
+        <button
+          type='button'
+          onClick={onBurgerClick}
+          className='header__burger-button opacity-button'
+        />
       )}
     </header>
   );
