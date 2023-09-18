@@ -29,7 +29,7 @@ function HeaderNavi({ isPopup }) {
         </Link>
       </div>
 
-      <Link className='header-navi__account' to='/profile'>
+      <Link className='header-navi__account opacity-link' to='/profile'>
         <p className='header-navi__account-text'>Аккаунт</p>
         <img
           src={logo}
