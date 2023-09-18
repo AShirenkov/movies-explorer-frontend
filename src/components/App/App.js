@@ -11,7 +11,7 @@ import { Route, Routes } from 'react-router-dom';
 
 // import Header from '../Header/Header';
 import Main from '../Main/Main';
-// import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
 import Profile from '../Profile/Profile';
@@ -19,19 +19,41 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 
+import authApi from '../../utils/AuthApi';
+import api from '../../utils/Api';
+
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import PopupNavi from '../PopupNavi/PopupNavi';
 
+import { useNavigate, Navigate } from 'react-router-dom';
+
 function App() {
-  const [isLoggedIn, setLoggedIn] = useState(true);
+  const [isLoggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [isBurger, setIsBurger] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [countCard, setCountCard] = useState(16);
 
   const [width, setWidth] = useState(window.innerWidth);
+  const navigate = useNavigate();
 
-  // const navigate = useNavigate();
+  useEffect(() => {
+    checkToken();
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      Promise.all([api.getMyUser()])
+        .then(([userInfo, cards]) => {
+          setCurrentUser(userInfo);
+          // setCards(cards);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }, [isLoggedIn]);
 
   useLayoutEffect(() => {
     function updateSize() {
@@ -45,10 +67,64 @@ function App() {
     return () => window.removeEventListener('resize', updateSize);
   }, [width]);
 
-  useEffect(() => {
-    setCurrentUser({ name: 'Виталий', email: 'pochta@yandex.ru' });
-    setLoggedIn(true);
-  }, []);
+  // useEffect(() => {
+  //   setCurrentUser({ name: 'Виталий', email: 'pochta@yandex.ru' });
+  //   setLoggedIn(true);
+  // }, []);
+
+  function handleRegister({ password, email, name }) {
+    authApi
+      .register(password, email, name)
+
+      .then(values => {
+        // setSuccessInfoTooltipStatus(true);
+        // setIsInfoTooltipPopupOpen(true);
+        navigate('/sign-in');
+      })
+      .catch(err => {
+        // setSuccessInfoTooltipStatus(false);
+        // setIsInfoTooltipPopupOpen(true);
+        console.log(err);
+      });
+  }
+
+  function handleLogin({ password, email }) {
+    authApi
+      .login(password, email)
+
+      .then(values => {
+        localStorage.setItem('token', values.token);
+        setLoggedIn(true);
+
+        // setCurrentEmail(email);
+        navigate('/');
+      })
+      .catch(err => {
+        //не было в ТЗ но решил добавить выдачу окошка с ошибкой
+        // setSuccessInfoTooltipStatus(false);
+        // setIsInfoTooltipPopupOpen(true);
+        console.log(err);
+      });
+  }
+
+  function checkToken() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      authApi
+        .checkToken(token)
+        .then(values => {
+          setCurrentUser({ name: values.name, email: values.email });
+          setLoggedIn(true);
+          navigate('/');
+        })
+        .catch(err => {
+          setLoggedIn(false);
+          console.log(err);
+        });
+    } else {
+      navigate('/sign-in');
+    }
+  }
 
   function handlePopupOpen() {
     setIsPopupOpen(true);
@@ -67,7 +143,8 @@ function App() {
               <ProtectedRoute
                 element={Main}
                 isLoggedIn={isLoggedIn}
-               
+                isBurger={isBurger}
+                onBurgerClick={handlePopupOpen}
               />
             }
           /> */}
@@ -80,12 +157,23 @@ function App() {
           {/* <Route path='/sign-up' element={<Register onRegister={handleRegister} />} />
           <Route path='/sign-in' element={<Login onLogin={handleLogin} />} /> */}
 
-          <Route path='/signup' element={<Register />} />
-          <Route path='/signin' element={<Login />} />
-          <Route
+          <Route path='/signup' element={<Register onRegister={handleRegister} />} />
+          <Route path='/signin' element={<Login onLogin={handleLogin} />} />
+          {/* <Route
             path='/profile'
             element={
               <Profile
+                isLoggedIn={isLoggedIn}
+                isBurger={isBurger}
+                onBurgerClick={handlePopupOpen}
+              />
+            }
+          /> */}
+          <Route
+            path='/profile'
+            element={
+              <ProtectedRoute
+                element={Profile}
                 isLoggedIn={isLoggedIn}
                 isBurger={isBurger}
                 onBurgerClick={handlePopupOpen}
@@ -95,7 +183,8 @@ function App() {
           <Route
             path='/movies'
             element={
-              <Movies
+              <ProtectedRoute
+                element={Movies}
                 isLoggedIn={isLoggedIn}
                 isBurger={isBurger}
                 countCard={countCard}
@@ -106,7 +195,8 @@ function App() {
           <Route
             path='/saved-movies'
             element={
-              <SavedMovies
+              <ProtectedRoute
+                element={SavedMovies}
                 isLoggedIn={isLoggedIn}
                 isBurger={isBurger}
                 countCard={countCard}
@@ -114,6 +204,29 @@ function App() {
               />
             }
           />
+
+          {/* <Route
+            path='/movies'
+            element={
+              <Movies
+                isLoggedIn={isLoggedIn}
+                isBurger={isBurger}
+                countCard={countCard}
+                onBurgerClick={handlePopupOpen}
+              />
+            }
+          /> */}
+          {/* <Route
+            path='/saved-movies'
+            element={
+              <SavedMovies
+                isLoggedIn={isLoggedIn}
+                isBurger={isBurger}
+                countCard={countCard}
+                onBurgerClick={handlePopupOpen}
+              />
+            }
+          /> */}
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
         <PopupNavi onButtonCloseClick={handlePopupClose} isPopupOpen={isPopupOpen} />
