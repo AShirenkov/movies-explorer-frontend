@@ -6,7 +6,8 @@ import { useForm } from 'react-hook-form';
 // import { Link } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-function Profile({ isLoggedIn, isBurger, onBurgerClick }) {
+function Profile({ onLogout, isBurger, onBurgerClick }) {
+  const isLoggedIn = true;
   const {
     register,
 
@@ -27,9 +28,9 @@ function Profile({ isLoggedIn, isBurger, onBurgerClick }) {
     setIsEditMode(true);
     evt.preventDefault();
   }
-  function onLogoutClick(data) {
+  function onLogoutClick() {
     console.log('нажата клавиша выйти из аккаунта');
-
+    onLogout();
     // setIsEditMode(true);
   }
   const onSubmit = data => setIsEditMode(false);

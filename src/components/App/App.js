@@ -79,7 +79,7 @@ function App() {
       .then(values => {
         // setSuccessInfoTooltipStatus(true);
         // setIsInfoTooltipPopupOpen(true);
-        navigate('/sign-in');
+        navigate('/signin');
       })
       .catch(err => {
         // setSuccessInfoTooltipStatus(false);
@@ -97,7 +97,7 @@ function App() {
         setLoggedIn(true);
 
         // setCurrentEmail(email);
-        navigate('/');
+        navigate('/movies');
       })
       .catch(err => {
         //не было в ТЗ но решил добавить выдачу окошка с ошибкой
@@ -115,15 +115,21 @@ function App() {
         .then(values => {
           setCurrentUser({ name: values.name, email: values.email });
           setLoggedIn(true);
-          navigate('/');
+          navigate('/movies');
         })
         .catch(err => {
           setLoggedIn(false);
           console.log(err);
         });
     } else {
-      navigate('/sign-in');
+      navigate('/');
     }
+  }
+
+  function handleLogout() {
+    localStorage.removeItem('token');
+    setLoggedIn(false);
+    navigate('/');
   }
 
   function handlePopupOpen() {
@@ -177,6 +183,7 @@ function App() {
                 isLoggedIn={isLoggedIn}
                 isBurger={isBurger}
                 onBurgerClick={handlePopupOpen}
+                onLogout={handleLogout}
               />
             }
           />

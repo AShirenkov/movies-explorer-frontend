@@ -9,12 +9,12 @@ import Footer from '../Footer/Footer';
 
 import { movies } from '../../utils/movies';
 
-function Movies({ isLoggedIn, isBurger, countCard, onBurgerClick }) {
+function Movies({ isBurger, countCard, onBurgerClick }) {
   //   const [moviesList, setMoviesList] = useState({});
   //   useEffect(() => {
   //     setMoviesList(movies);
   //   }, []);
-
+  const isLoggedIn = true;
   return (
     <>
       <Header isLoggedIn={isLoggedIn} isBurger={isBurger} onBurgerClick={onBurgerClick} />

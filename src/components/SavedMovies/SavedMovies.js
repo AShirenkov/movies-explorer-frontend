@@ -9,12 +9,12 @@ import { moviesSaved } from '../../utils/moviesSaved';
 
 import './SavedMovies.css';
 
-function SavedMovies({ isLoggedIn, isBurger, countCard, onBurgerClick }) {
+function SavedMovies({ isBurger, countCard, onBurgerClick }) {
   //   const [moviesList, setMoviesList] = useState({});
   //   useEffect(() => {
   //     setMoviesList(moviesSaved);
   //   }, []);
-
+  const isLoggedIn = true;
   return (
     <>
       <Header isLoggedIn={isLoggedIn} isBurger={isBurger} onBurgerClick={onBurgerClick} />
