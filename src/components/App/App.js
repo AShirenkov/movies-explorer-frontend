@@ -22,6 +22,8 @@ import SavedMovies from '../SavedMovies/SavedMovies';
 import authApi from '../../utils/AuthApi';
 import api from '../../utils/Api';
 
+import PopupInfo from '../PopupInfo/PopupInfo';
+
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import PopupNavi from '../PopupNavi/PopupNavi';
 
@@ -32,9 +34,15 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [isBurger, setIsBurger] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const [isPopupInfoOpen, setIsPopupInfoOpen] = useState(false);
+  const [isPopupInfoStatus, setIsPopupInfoStatus] = useState(false);
+  const [popupInfoMessage, setPopupInfoMessage] = useState('');
+
   const [countCard, setCountCard] = useState(16);
 
   const [width, setWidth] = useState(window.innerWidth);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,7 +52,7 @@ function App() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      Promise.all([api.getMyUser()])
+      Promise.all([authApi.getMyUser()])
         .then(([userInfo, cards]) => {
           setCurrentUser(userInfo);
           // setCards(cards);
@@ -79,11 +87,17 @@ function App() {
       .then(values => {
         // setSuccessInfoTooltipStatus(true);
         // setIsInfoTooltipPopupOpen(true);
-        navigate('/signin');
+        handleLogin({ password, email });
+        navigate('/movies');
       })
       .catch(err => {
         // setSuccessInfoTooltipStatus(false);
         // setIsInfoTooltipPopupOpen(true);
+        setPopupInfoMessage(err.message);
+        setIsPopupInfoStatus(true);
+        setIsPopupInfoOpen(true);
+        console.log(err.message);
+
         console.log(err);
       });
   }
@@ -103,6 +117,11 @@ function App() {
         //не было в ТЗ но решил добавить выдачу окошка с ошибкой
         // setSuccessInfoTooltipStatus(false);
         // setIsInfoTooltipPopupOpen(true);
+
+        setIsPopupInfoStatus(true);
+        setIsPopupInfoOpen(true);
+        setPopupInfoMessage(err.message);
+
         console.log(err);
       });
   }
@@ -131,12 +150,29 @@ function App() {
     setLoggedIn(false);
     navigate('/');
   }
+  function handleUpdateUser(objUser) {
+    authApi
+      .setUserInfo(objUser)
+      .then(values => {
+        setCurrentUser(values);
+
+        //closeAllPopups();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  function handlePopupInfoOpen() {
+    setIsPopupInfoOpen(true);
+  }
 
   function handlePopupOpen() {
     setIsPopupOpen(true);
   }
   function handlePopupClose() {
     setIsPopupOpen(false);
+    setIsPopupInfoOpen(false);
   }
 
   return (
@@ -184,6 +220,7 @@ function App() {
                 isBurger={isBurger}
                 onBurgerClick={handlePopupOpen}
                 onLogout={handleLogout}
+                onEdit={handleUpdateUser}
               />
             }
           />
@@ -237,6 +274,11 @@ function App() {
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
         <PopupNavi onButtonCloseClick={handlePopupClose} isPopupOpen={isPopupOpen} />
+        <PopupInfo
+          onButtonCloseClick={handlePopupClose}
+          isOpened={isPopupInfoOpen}
+          infoMessage={popupInfoMessage}
+        />
         {/* <Header>test</Header> */}
         {/* <Main /> */}
       </div>

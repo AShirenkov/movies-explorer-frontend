@@ -6,14 +6,14 @@ import { useForm } from 'react-hook-form';
 // import { Link } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-function Profile({ onLogout, isBurger, onBurgerClick }) {
+function Profile({ onLogout, onEdit, isBurger, onBurgerClick }) {
   const isLoggedIn = true;
   const {
     register,
 
     formState: { errors, isValid },
     handleSubmit,
-
+    reset,
     setValue
   } = useForm({
     mode: 'onBlur'
@@ -33,7 +33,11 @@ function Profile({ onLogout, isBurger, onBurgerClick }) {
     onLogout();
     // setIsEditMode(true);
   }
-  const onSubmit = data => setIsEditMode(false);
+  function onSubmit(data) {
+    setIsEditMode(false);
+    onEdit(data);
+    reset();
+  }
 
   useEffect(() => {
     setValue('name', currentUser.name);

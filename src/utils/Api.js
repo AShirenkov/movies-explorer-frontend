@@ -8,7 +8,10 @@ class Api {
     if (res.ok) {
       return res.json();
     }
-    return Promise.reject(`Ошибка сервера: ${res.status}`);
+    res.message = res.statusText;
+    res.message = 'тестовая ошибка';
+    //return Promise.reject(`Ошибка сервера: ${res.status}`);
+    return Promise.reject(res);
   }
 
   _request(url, options) {
@@ -30,20 +33,20 @@ class Api {
     return this._request('/users/me', { headers: this._setHeaders() });
   }
 
-  setUserInfo(obj) {
-    return this._request('/users/me', {
-      method: 'PATCH',
-      headers: this._setHeaders(),
-      body: JSON.stringify(obj)
-    });
-  }
-  setUserAvatar(obj) {
-    return this._request('/users/me/avatar', {
-      method: 'PATCH',
-      headers: this._setHeaders(),
-      body: JSON.stringify(obj)
-    });
-  }
+  // setUserInfo(obj) {
+  //   return this._request('/users/me', {
+  //     method: 'PATCH',
+  //     headers: this._setHeaders(),
+  //     body: JSON.stringify(obj)
+  //   });
+  // }
+  // setUserAvatar(obj) {
+  //   return this._request('/users/me/avatar', {
+  //     method: 'PATCH',
+  //     headers: this._setHeaders(),
+  //     body: JSON.stringify(obj)
+  //   });
+  // }
 
   sendNewCard(obj) {
     return this._request('/cards', {
