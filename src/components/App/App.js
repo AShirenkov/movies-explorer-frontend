@@ -20,6 +20,7 @@ import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 
 import authApi from '../../utils/AuthApi';
+import moviesApi from '../../utils/MoviesApi';
 import api from '../../utils/Api';
 
 import PopupInfo from '../PopupInfo/PopupInfo';
@@ -39,6 +40,8 @@ function App() {
   const [isPopupInfoStatus, setIsPopupInfoStatus] = useState(false);
   const [popupInfoMessage, setPopupInfoMessage] = useState('');
 
+  const [movies, setMovies] = useState({});
+
   const [countCard, setCountCard] = useState(16);
 
   const [width, setWidth] = useState(window.innerWidth);
@@ -47,6 +50,19 @@ function App() {
 
   useEffect(() => {
     checkToken();
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    moviesApi
+      .getMovies()
+      .then(movies => {
+        setMovies(movies);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
     // eslint-disable-next-line
   }, []);
 
@@ -105,11 +121,10 @@ function App() {
   function handleLogin({ password, email }) {
     authApi
       .login(password, email)
-
       .then(values => {
         localStorage.setItem('token', values.token);
         setLoggedIn(true);
-
+        console.log('eурра');
         // setCurrentEmail(email);
         navigate('/movies');
       })
@@ -121,7 +136,7 @@ function App() {
         setIsPopupInfoStatus(true);
         setIsPopupInfoOpen(true);
         setPopupInfoMessage(err.message);
-
+        console.log('хмм');
         console.log(err);
       });
   }
@@ -229,6 +244,7 @@ function App() {
             element={
               <ProtectedRoute
                 element={Movies}
+                movies={movies}
                 isLoggedIn={isLoggedIn}
                 isBurger={isBurger}
                 countCard={countCard}

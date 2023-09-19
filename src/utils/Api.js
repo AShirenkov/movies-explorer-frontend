@@ -9,7 +9,7 @@ class Api {
       return res.json();
     }
     res.message = res.statusText;
-    res.message = 'тестовая ошибка';
+
     //return Promise.reject(`Ошибка сервера: ${res.status}`);
     return Promise.reject(res);
   }

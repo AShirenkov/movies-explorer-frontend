@@ -20,11 +20,18 @@ class AuthApi {
     if (res.ok) {
       return res.json();
     }
-    // res.message = res.statusText;
-    // res.message = 'тестовая ошибка';
-    //return Promise.reject(`Ошибка сервера: ${res.status}`);
-    //return Promise.reject(res);
-    return res;
+    if (res.status === 400) {
+      res.message = ERROR_REGISTER_USER;
+    }
+    if (res.status === 401) {
+      res.message = ERROR_AUTH_TOKEN_TRASFER;
+    }
+    if (res.status === 409) {
+      res.message = ERROR_ALREADY_EXIST_USER;
+    } else {
+      res.message = res.statusText;
+    }
+    return Promise.reject(res);
   }
   _setMessage(res) {
     if (res.status === 400) {
@@ -42,9 +49,7 @@ class AuthApi {
   }
 
   _request(url, options) {
-    return fetch(`${this._baseUrl}${url}`, options)
-      .then(this._checkResponse)
-      .then(this._setMessage);
+    return fetch(`${this._baseUrl}${url}`, options).then(this._checkResponse);
   }
 
   _setHeaders() {

@@ -7,9 +7,9 @@ import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 
-import { movies } from '../../utils/movies';
+// import { movies } from '../../utils/movies';
 
-function Movies({ isBurger, countCard, onBurgerClick }) {
+function Movies({ movies, isBurger, countCard, onBurgerClick }) {
   //   const [moviesList, setMoviesList] = useState({});
   //   useEffect(() => {
   //     setMoviesList(movies);
