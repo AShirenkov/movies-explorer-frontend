@@ -19,22 +19,20 @@ function MoviesCard({ movieCard, name, duration, imgLink }) {
     return durationString;
   };
   function onSavedClick() {
-    /*isSavedMovies
+    isSavedMovies
       ? savedMoviesApi
           .removeMovieById(movieCard.movieId)
           .then(() => {
-            // setCards(cards => cards.filter(i => i._id !== card._id));
-            console.log('успех');
+            console.log('успех2');
           })
           .catch(err => {
             console.log(err);
           })
       : isLiked
       ? savedMoviesApi
-          .removeMovieById(movieCard)
+          .removeMovieById(movieCard.movieId)
           .then(() => {
-            // setCards(cards => cards.filter(i => i._id !== card._id));
-            console.log('успех');
+            setIsLiked(false);
           })
           .catch(err => {
             console.log(err);
@@ -42,33 +40,13 @@ function MoviesCard({ movieCard, name, duration, imgLink }) {
       : savedMoviesApi
           .addNewMovie(movieCard)
           .then(() => {
-            // setCards(cards => cards.filter(i => i._id !== card._id));
-            console.log('успех');
+            setIsLiked(true);
           })
           .catch(err => {
             console.log(err);
           });
 
-    setIsLiked(!isLiked);
-    console.log('isLiked'); //не забыть убрать*/
-    console.log(movieCard.movieId);
-    savedMoviesApi
-      .addNewMovie(movieCard)
-      .then(() => {
-        console.log('успех');
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
-    // savedMoviesApi
-    //   .removeMovieById(movieCard.movieId)
-    //   .then(() => {
-    //     console.log('успех2');
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    // setIsLiked(!isLiked);
   }
 
   return (

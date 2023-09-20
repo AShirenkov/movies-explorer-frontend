@@ -80,7 +80,6 @@ function App() {
 
       .then(moviesList => {
         setMovies(slimMovies(moviesList));
-        console.log(movies);
       })
       .catch(err => {
         console.log(err);
