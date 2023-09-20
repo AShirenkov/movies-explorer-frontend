@@ -1,6 +1,7 @@
 import { useState, useEffect, useLayoutEffect } from 'react';
 
 import { Route, Routes } from 'react-router-dom';
+import { baseUrl } from '../../utils/constants';
 
 // import { useNavigate, Navigate } from 'react-router-dom';
 
@@ -77,9 +78,9 @@ function App() {
     moviesApi
       .getMovies()
 
-      .then(movies => {
+      .then(moviesList => {
+        setMovies(slimMovies(moviesList));
         console.log(movies);
-        setMovies(movies);
       })
       .catch(err => {
         console.log(err);
@@ -89,7 +90,7 @@ function App() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      setIsDownload(false);
+      setIsDownload(true);
       Promise.all([authApi.getMyUser(), savedMoviesApi.getMovies()])
         .then(([userInfo, savedMovies]) => {
           setCurrentUser(userInfo);
@@ -98,7 +99,7 @@ function App() {
         .catch(err => {
           console.log(err);
         })
-        .finally(() => setIsDownload(true));
+        .finally(() => setIsDownload(false));
     }
   }, [isLoggedIn]);
 
@@ -119,6 +120,22 @@ function App() {
   //   setLoggedIn(true);
   // }, []);
 
+  function slimMovies(movies) {
+    return movies.map(movie => ({
+      country: movie.country,
+      director: movie.director,
+      duration: movie.duration,
+      year: movie.year,
+      description: movie.description,
+      image: `${baseUrl}${movie.image.url}`,
+      trailerLink: movie.trailerLink,
+      thumbnail: `${baseUrl}${movie.image.formats.thumbnail.url}`,
+      movieId: movie.id,
+
+      nameRU: movie.nameRU,
+      nameEN: movie.nameEN
+    }));
+  }
   function handleRegister({ password, email, name }) {
     authApi
       .register(password, email, name)

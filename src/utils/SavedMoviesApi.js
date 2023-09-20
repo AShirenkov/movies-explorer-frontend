@@ -18,6 +18,7 @@ class SavedMoviesApi {
 
   _setHeaders() {
     return {
+      authorization: `Bearer ${localStorage.getItem('token')}`,
       'Content-Type': 'application/json'
     };
   }

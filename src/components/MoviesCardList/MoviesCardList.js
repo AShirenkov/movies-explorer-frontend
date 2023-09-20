@@ -35,12 +35,7 @@ function MoviesCardList({ moviesList, countCard }) {
     <section className='movies'>
       <div className='movies__list'>
         {moviesList.slice(0, countCards).map(movieCard => (
-          <MoviesCard
-            key={movieCard.id}
-            name={movieCard.nameRU}
-            duration={movieCard.duration}
-            imgLink={`${baseUrl}${movieCard.image.url}`}
-          />
+          <MoviesCard key={movieCard.movieId} movieCard={movieCard} />
         ))}
       </div>
       {!isMoviesFinished && (
