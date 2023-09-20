@@ -10,7 +10,15 @@ import Preloader from '../Preloader/Preloader';
 
 // import { movies } from '../../utils/movies';
 
-function Movies({ movies, savedMovies, isDownload, isBurger, countCard, onBurgerClick }) {
+function Movies({
+  movies,
+  savedMovies,
+  isDownload,
+  isBurger,
+
+  width,
+  onBurgerClick
+}) {
   //   const [moviesList, setMoviesList] = useState({});
   //   useEffect(() => {
   //     setMoviesList(movies);
@@ -24,7 +32,7 @@ function Movies({ movies, savedMovies, isDownload, isBurger, countCard, onBurger
         {isDownload ? (
           <Preloader />
         ) : (
-          <MoviesCardList moviesList={movies} savedMovies={savedMovies} countCard={countCard} />
+          <MoviesCardList moviesList={movies} savedMovies={savedMovies} width={width} />
         )}
       </main>
       <Footer />

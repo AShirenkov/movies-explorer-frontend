@@ -1,34 +1,39 @@
 // import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import { baseUrl } from '../../utils/constants';
 
-function MoviesCardList({ moviesList, savedMovies, countCard }) {
-  //   let countCardInitial = width > 900 ? 16 : width > 450 ? 8 : 5;
-  //   let countCardForAddition = width > 900 ? 16 : width > 450 ? 8 : 4;
-
+function MoviesCardList({ moviesList, savedMovies, width }) {
   const [isMoviesFinished, setIsMoviesFinished] = useState(false);
 
-  const [countCardInitial, setCountCardInitial] = useState(countCard);
-  const [countCards, setCountCards] = useState(countCardInitial);
+  // const [countCardInitial, setCountCardInitial] = useState(countCard);
+  const [countCards, setCountCards] = useState(0);
+  const [countCardsAdd, setCountCardsAdd] = useState(0);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    // setCountCards(countCard);
+
+    setCountCards(width > 900 ? 16 : width > 450 ? 8 : 5);
+    setCountCardsAdd(width > 900 ? 4 : width > 450 ? 2 : 2);
+
     if (moviesList.length < countCards) {
       setIsMoviesFinished(true);
+      setCountCards(moviesList.length);
     } // eslint-disable-next-line
   }, []);
-  useEffect(() => {
-    setCountCardInitial(countCard);
-  }, [countCard]);
+
+  // useEffect(() => {
+  //   setCountCardInitial(countCard);
+  // }, [countCard]);
 
   function onAddClick() {
-    if (moviesList.length < countCards + countCardInitial) {
+    if (moviesList.length < countCards + countCardsAdd) {
       setIsMoviesFinished(true);
       setCountCards(moviesList.length);
     } else {
-      setCountCards(countCards + countCardInitial);
+      setCountCards(countCards + countCardsAdd);
     }
   }
   return (

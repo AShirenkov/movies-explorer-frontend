@@ -45,7 +45,8 @@ function App() {
   const [movies, setMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState({});
 
-  const [countCard, setCountCard] = useState(16);
+  const [countCard, setCountCard] = useState(0);
+  const [countCardElse, setCountCardElse] = useState(0);
 
   const [width, setWidth] = useState(window.innerWidth);
 
@@ -106,6 +107,7 @@ function App() {
     function updateSize() {
       setWidth(window.innerWidth);
       setCountCard(width > 900 ? 16 : width > 450 ? 8 : 5);
+      setCountCardElse(width > 900 ? 4 : width > 450 ? 2 : 2);
       setIsBurger(width > 900 ? false : true);
     }
     updateSize();
@@ -288,8 +290,8 @@ function App() {
                 movies={movies}
                 savedMovies={savedMovies}
                 isBurger={isBurger}
-                countCard={countCard}
                 onBurgerClick={handlePopupOpen}
+                width={width}
               />
             }
           />
@@ -303,8 +305,8 @@ function App() {
                 movies={movies}
                 savedMovies={savedMovies}
                 isBurger={isBurger}
-                countCard={countCard}
                 onBurgerClick={handlePopupOpen}
+                width={width}
               />
             }
           />
