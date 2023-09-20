@@ -21,6 +21,7 @@ import SavedMovies from '../SavedMovies/SavedMovies';
 
 import authApi from '../../utils/AuthApi';
 import moviesApi from '../../utils/MoviesApi';
+import savedMoviesApi from '../../utils/SavedMoviesApi';
 import api from '../../utils/Api';
 
 import PopupInfo from '../PopupInfo/PopupInfo';
@@ -40,11 +41,14 @@ function App() {
   const [isPopupInfoStatus, setIsPopupInfoStatus] = useState(false);
   const [popupInfoMessage, setPopupInfoMessage] = useState('');
 
-  const [movies, setMovies] = useState({});
+  const [movies, setMovies] = useState([]);
+  const [savedMovies, setSavedMovies] = useState({});
 
   const [countCard, setCountCard] = useState(16);
 
   const [width, setWidth] = useState(window.innerWidth);
+
+  const [isDownload, setIsDownload] = useState(false);
 
   const navigate = useNavigate();
 
@@ -53,29 +57,48 @@ function App() {
     // eslint-disable-next-line
   }, []);
 
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //   moviesApi
+  //     .getMovies()
+  //     .then(movies => {
+  //       console.log(movies);
+  //       setMovies(movies);
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+
+  //   // eslint-disable-next-line
+  // }, []);
+
   useEffect(() => {
+    setIsDownload(true);
     moviesApi
       .getMovies()
+
       .then(movies => {
+        console.log(movies);
         setMovies(movies);
       })
       .catch(err => {
         console.log(err);
-      });
-
-    // eslint-disable-next-line
+      })
+      .finally(() => setIsDownload(false));
   }, []);
 
   useEffect(() => {
     if (isLoggedIn) {
-      Promise.all([authApi.getMyUser()])
-        .then(([userInfo, cards]) => {
+      setIsDownload(false);
+      Promise.all([authApi.getMyUser(), savedMoviesApi.getMovies()])
+        .then(([userInfo, savedMovies]) => {
           setCurrentUser(userInfo);
-          // setCards(cards);
+          setSavedMovies(savedMovies);
         })
         .catch(err => {
           console.log(err);
-        });
+        })
+        .finally(() => setIsDownload(true));
     }
   }, [isLoggedIn]);
 
@@ -244,8 +267,10 @@ function App() {
             element={
               <ProtectedRoute
                 element={Movies}
-                movies={movies}
                 isLoggedIn={isLoggedIn}
+                isDownload={isDownload}
+                movies={movies}
+                savedMovies={savedMovies}
                 isBurger={isBurger}
                 countCard={countCard}
                 onBurgerClick={handlePopupOpen}
@@ -258,6 +283,9 @@ function App() {
               <ProtectedRoute
                 element={SavedMovies}
                 isLoggedIn={isLoggedIn}
+                isDownload={isDownload}
+                movies={movies}
+                savedMovies={savedMovies}
                 isBurger={isBurger}
                 countCard={countCard}
                 onBurgerClick={handlePopupOpen}
