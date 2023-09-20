@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import './MoviesCard.css';
 import savedMoviesApi from '../../utils/SavedMoviesApi';
 
-function MoviesCard({ movieCard, savedMovies }) {
+function MoviesCard({ movieCard, savedMovies, addItemSavedMovies, removeItemSavedMovies }) {
   const currentLocation = useLocation();
   const [isLiked, setIsLiked] = useState(false);
 
@@ -33,7 +33,7 @@ function MoviesCard({ movieCard, savedMovies }) {
       ? savedMoviesApi
           .removeMovieById(movieCard.movieId)
           .then(() => {
-            console.log('успех2');
+            removeItemSavedMovies(movieCard);
           })
           .catch(err => {
             console.log(err);
@@ -42,6 +42,7 @@ function MoviesCard({ movieCard, savedMovies }) {
       ? savedMoviesApi
           .removeMovieById(movieCard.movieId)
           .then(() => {
+            removeItemSavedMovies(movieCard);
             setIsLiked(false);
           })
           .catch(err => {
@@ -51,6 +52,7 @@ function MoviesCard({ movieCard, savedMovies }) {
           .addNewMovie(movieCard)
           .then(() => {
             setIsLiked(true);
+            addItemSavedMovies(movieCard);
           })
           .catch(err => {
             console.log(err);

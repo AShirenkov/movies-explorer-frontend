@@ -13,6 +13,8 @@ import Preloader from '../Preloader/Preloader';
 function Movies({
   movies,
   savedMovies,
+  addItemSavedMovies,
+  removeItemSavedMovies,
   isDownload,
   isBurger,
 
@@ -32,7 +34,13 @@ function Movies({
         {isDownload ? (
           <Preloader />
         ) : (
-          <MoviesCardList moviesList={movies} savedMovies={savedMovies} width={width} />
+          <MoviesCardList
+            moviesList={movies}
+            savedMovies={savedMovies}
+            addItemSavedMovies={addItemSavedMovies}
+            removeItemSavedMovies={removeItemSavedMovies}
+            width={width}
+          />
         )}
       </main>
       <Footer />

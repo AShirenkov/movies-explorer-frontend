@@ -13,6 +13,8 @@ import './SavedMovies.css';
 function SavedMovies({
   movies,
   savedMovies,
+  addItemSavedMovies,
+  removeItemSavedMovies,
   isDownload,
   isBurger,
 
@@ -33,7 +35,13 @@ function SavedMovies({
         {isDownload ? (
           <Preloader />
         ) : (
-          <MoviesCardList moviesList={savedMovies} savedMovies={savedMovies} width={width} />
+          <MoviesCardList
+            moviesList={savedMovies}
+            savedMovies={savedMovies}
+            addItemSavedMovies={addItemSavedMovies}
+            removeItemSavedMovies={removeItemSavedMovies}
+            width={width}
+          />
         )}
       </main>
       <Footer />

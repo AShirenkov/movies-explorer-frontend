@@ -5,7 +5,13 @@ import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import { baseUrl } from '../../utils/constants';
 
-function MoviesCardList({ moviesList, savedMovies, width }) {
+function MoviesCardList({
+  moviesList,
+  savedMovies,
+  addItemSavedMovies,
+  removeItemSavedMovies,
+  width
+}) {
   const [isMoviesFinished, setIsMoviesFinished] = useState(false);
 
   // const [countCardInitial, setCountCardInitial] = useState(countCard);
@@ -40,7 +46,13 @@ function MoviesCardList({ moviesList, savedMovies, width }) {
     <section className='movies'>
       <div className='movies__list'>
         {moviesList.slice(0, countCards).map(movieCard => (
-          <MoviesCard key={movieCard.movieId} movieCard={movieCard} savedMovies={savedMovies} />
+          <MoviesCard
+            key={movieCard.movieId}
+            movieCard={movieCard}
+            savedMovies={savedMovies}
+            addItemSavedMovies={addItemSavedMovies}
+            removeItemSavedMovies={removeItemSavedMovies}
+          />
         ))}
       </div>
       {!isMoviesFinished && (

@@ -45,9 +45,6 @@ function App() {
   const [movies, setMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState({});
 
-  const [countCard, setCountCard] = useState(0);
-  const [countCardElse, setCountCardElse] = useState(0);
-
   const [width, setWidth] = useState(window.innerWidth);
 
   const [isDownload, setIsDownload] = useState(false);
@@ -106,8 +103,7 @@ function App() {
   useLayoutEffect(() => {
     function updateSize() {
       setWidth(window.innerWidth);
-      setCountCard(width > 900 ? 16 : width > 450 ? 8 : 5);
-      setCountCardElse(width > 900 ? 4 : width > 450 ? 2 : 2);
+
       setIsBurger(width > 900 ? false : true);
     }
     updateSize();
@@ -136,6 +132,16 @@ function App() {
       nameRU: movie.nameRU,
       nameEN: movie.nameEN
     }));
+  }
+
+  function addItemSavedMovies(newMovie) {
+    const updatedData = [...savedMovies, newMovie];
+    setSavedMovies(updatedData);
+  }
+  function removeItemSavedMovies(removeMovie) {
+    const updatedData = savedMovies.filter(item => item.movieId !== removeMovie.movieId);
+
+    setSavedMovies(updatedData);
   }
   function handleRegister({ password, email, name }) {
     authApi
@@ -289,6 +295,8 @@ function App() {
                 isDownload={isDownload}
                 movies={movies}
                 savedMovies={savedMovies}
+                addItemSavedMovies={addItemSavedMovies}
+                removeItemSavedMovies={removeItemSavedMovies}
                 isBurger={isBurger}
                 onBurgerClick={handlePopupOpen}
                 width={width}
@@ -304,6 +312,8 @@ function App() {
                 isDownload={isDownload}
                 movies={movies}
                 savedMovies={savedMovies}
+                addItemSavedMovies={addItemSavedMovies}
+                removeItemSavedMovies={removeItemSavedMovies}
                 isBurger={isBurger}
                 onBurgerClick={handlePopupOpen}
                 width={width}
