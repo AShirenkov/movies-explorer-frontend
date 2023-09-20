@@ -1,6 +1,7 @@
 // import React from 'react';
 import { useState, useEffect, useLayoutEffect } from 'react';
 
+import { useLocation } from 'react-router-dom';
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import { baseUrl } from '../../utils/constants';
@@ -13,10 +14,12 @@ function MoviesCardList({
   width
 }) {
   const [isMoviesFinished, setIsMoviesFinished] = useState(false);
-
+  const currentLocation = useLocation();
   // const [countCardInitial, setCountCardInitial] = useState(countCard);
   const [countCards, setCountCards] = useState(0);
   const [countCardsAdd, setCountCardsAdd] = useState(0);
+
+  const isSavedMovies = currentLocation.pathname === '/saved-movies';
 
   useLayoutEffect(() => {
     // setCountCards(countCard);
@@ -24,7 +27,7 @@ function MoviesCardList({
     setCountCards(width > 900 ? 16 : width > 450 ? 8 : 5);
     setCountCardsAdd(width > 900 ? 4 : width > 450 ? 2 : 2);
 
-    if (moviesList.length < countCards) {
+    if (moviesList.length < countCards || isSavedMovies) {
       setIsMoviesFinished(true);
       setCountCards(moviesList.length);
     } // eslint-disable-next-line
@@ -55,7 +58,7 @@ function MoviesCardList({
           />
         ))}
       </div>
-      {!isMoviesFinished && (
+      {!isMoviesFinished && !isSavedMovies && (
         <button className='movies__add-button opacity-button' onClick={onAddClick}>
           Ещё
         </button>
