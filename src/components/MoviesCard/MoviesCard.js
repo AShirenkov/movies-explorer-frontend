@@ -1,13 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import './MoviesCard.css';
 import savedMoviesApi from '../../utils/SavedMoviesApi';
 
-function MoviesCard({ movieCard, name, duration, imgLink }) {
+function MoviesCard({ movieCard, savedMovies }) {
   const currentLocation = useLocation();
   const [isLiked, setIsLiked] = useState(false);
 
   const isSavedMovies = currentLocation.pathname === '/saved-movies';
+
+  //const found = arr.some(el => el === 3);
+
+  useEffect(() => {
+    if (!isSavedMovies) {
+      savedMovies.some(savedMovie => savedMovie.movieId === movieCard.movieId)
+        ? setIsLiked(true)
+        : setIsLiked(false);
+    }
+  }, []);
 
   const convertMinutesToHoursAndMinutes = time => {
     const hours = Math.floor(time / 60);

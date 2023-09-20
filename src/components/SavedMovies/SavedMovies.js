@@ -25,7 +25,11 @@ function SavedMovies({ movies, savedMovies, isDownload, isBurger, countCard, onB
         {isDownload ? (
           <Preloader />
         ) : (
-          <MoviesCardList moviesList={savedMovies} countCard={countCard} />
+          <MoviesCardList
+            moviesList={savedMovies}
+            savedMovies={savedMovies}
+            countCard={countCard}
+          />
         )}
       </main>
       <Footer />

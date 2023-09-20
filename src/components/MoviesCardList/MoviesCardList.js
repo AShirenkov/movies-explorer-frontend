@@ -5,7 +5,7 @@ import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import { baseUrl } from '../../utils/constants';
 
-function MoviesCardList({ moviesList, countCard }) {
+function MoviesCardList({ moviesList, savedMovies, countCard }) {
   //   let countCardInitial = width > 900 ? 16 : width > 450 ? 8 : 5;
   //   let countCardForAddition = width > 900 ? 16 : width > 450 ? 8 : 4;
 
@@ -35,7 +35,7 @@ function MoviesCardList({ moviesList, countCard }) {
     <section className='movies'>
       <div className='movies__list'>
         {moviesList.slice(0, countCards).map(movieCard => (
-          <MoviesCard key={movieCard.movieId} movieCard={movieCard} />
+          <MoviesCard key={movieCard.movieId} movieCard={movieCard} savedMovies={savedMovies} />
         ))}
       </div>
       {!isMoviesFinished && (
