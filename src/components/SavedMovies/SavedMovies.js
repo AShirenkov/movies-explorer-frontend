@@ -1,5 +1,6 @@
 // import React, { useEffect, useState } from 'react';
-import React from 'react';
+// import React from 'react';
+import React, { useState } from 'react';
 import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
@@ -16,6 +17,7 @@ function SavedMovies({
   addItemSavedMovies,
   removeItemSavedMovies,
   isDownload,
+  setIsDownload,
   isBurger,
 
   onBurgerClick,
@@ -26,17 +28,22 @@ function SavedMovies({
   //     setMoviesList(moviesSaved);
   //   }, []);
 
+  const [moviesAfterFilter, setMoviesAfterFilter] = useState([]);
   const isLoggedIn = true;
   return (
     <>
       <Header isLoggedIn={isLoggedIn} isBurger={isBurger} onBurgerClick={onBurgerClick} />
       <main className='content'>
-        <SearchForm />
+        <SearchForm
+          setMoviesAfterFilter={setMoviesAfterFilter}
+          movies={savedMovies}
+          setIsDownload={setIsDownload}
+        />
         {isDownload ? (
           <Preloader />
         ) : (
           <MoviesCardList
-            moviesList={savedMovies}
+            moviesList={moviesAfterFilter}
             savedMovies={savedMovies}
             addItemSavedMovies={addItemSavedMovies}
             removeItemSavedMovies={removeItemSavedMovies}

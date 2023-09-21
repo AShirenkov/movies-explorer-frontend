@@ -293,6 +293,7 @@ function App() {
                 element={Movies}
                 isLoggedIn={isLoggedIn}
                 isDownload={isDownload}
+                setIsDownload={setIsDownload}
                 movies={movies}
                 savedMovies={savedMovies}
                 addItemSavedMovies={addItemSavedMovies}
@@ -310,6 +311,7 @@ function App() {
                 element={SavedMovies}
                 isLoggedIn={isLoggedIn}
                 isDownload={isDownload}
+                setIsDownload={setIsDownload}
                 movies={movies}
                 savedMovies={savedMovies}
                 addItemSavedMovies={addItemSavedMovies}

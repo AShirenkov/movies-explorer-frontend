@@ -1,33 +1,73 @@
 import './SearchForm.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useLocation } from 'react-router-dom';
 import findLogo from '../../images/find.svg';
 import findShortFindOn from '../../images/find-shortOn.svg';
 import findShortFindOff from '../../images/find-shortOff.svg';
 
-function SearchForm() {
+function SearchForm({ setMoviesAfterFilter, movies, setIsDownload }) {
   const {
     register,
 
     formState: { errors, isValid },
     handleSubmit
   } = useForm({
-    mode: 'onBlur'
+    mode: 'all'
   });
   const [isShortSwitchOn, setIsShortSwitchOn] = useState(false);
+  const [searchResult, setSearchResult] = useState([]);
+  const [searchResultShort, setSearchResultShort] = useState([]);
+  const currentLocation = useLocation();
+  const isSavedMovies = currentLocation.pathname === '/saved-movies';
 
-  //   useEffect(() => {
-  //     setIsShortSwitchOn(true);
+  useEffect(() => {
+    // setIsShortSwitchOn(false);
+    setMoviesAfterFilter(movies || []);
+  }, [movies]);
 
-  //   }, []);
+  function findShortMovies(moviesArray) {
+    const result = moviesArray.filter(item => {
+      return item.duration <= 40;
+    });
+    return result;
+  }
+  function findMoviesByKey(moviesArray, textSearch) {
+    setIsDownload(true);
+    const result = moviesArray.filter(item => {
+      return (
+        item.nameRU.toLowerCase().includes(textSearch.toLowerCase()) ||
+        item.nameEN.toLowerCase().includes(textSearch.toLowerCase())
+      );
+    });
+    setIsDownload(false);
+    console.log(result);
+    return result;
+  }
+
+  // function findMoviesByKey(moviesArray, textSearch) {
+  //   setSearchResult(
+  //     moviesArray.filter(item => {
+  //       return (
+  //         item.nameRU.toLowerCase().includes(textSearch.toLowerCase()) ||
+  //         item.nameEN.toLowerCase().includes(textSearch.toLowerCase())
+  //       );
+  //     })
+  //   );
+  // }
 
   function onSwitcherShortClick(evt) {
-    evt.preventDefault();
     setIsShortSwitchOn(!isShortSwitchOn);
   }
 
-  function onSubmit(evt) {
-    evt.preventDefault();
+  function onSubmit(data) {
+    console.log(data);
+    // setSearchResultShort(findShortMovies(movies));
+    const result = isShortSwitchOn
+      ? findMoviesByKey(findShortMovies(movies), data.movie)
+      : findMoviesByKey(movies, data.movie);
+
+    setMoviesAfterFilter(result);
   }
 
   return (
@@ -51,7 +91,6 @@ function SearchForm() {
           <button
             type='submit'
             disabled={!isValid}
-            onClick={onSubmit}
             className='search-form__button-find opacity-button'
           >
             Найти
