@@ -9,7 +9,7 @@ import findShortFindOff from '../../images/find-shortOff.svg';
 function SearchForm({ setMoviesAfterFilter, movies, setIsDownload }) {
   const {
     register,
-
+    getValues,
     formState: { errors, isValid },
     handleSubmit
   } = useForm({
@@ -25,6 +25,16 @@ function SearchForm({ setMoviesAfterFilter, movies, setIsDownload }) {
     // setIsShortSwitchOn(false);
     setMoviesAfterFilter(movies || []);
   }, [movies]);
+
+  useEffect(() => {
+    const filterValue = getValues('movie');
+
+    const result = isShortSwitchOn
+      ? findMoviesByKey(findShortMovies(movies), filterValue)
+      : findMoviesByKey(movies, filterValue);
+
+    setMoviesAfterFilter(result);
+  }, [isShortSwitchOn]);
 
   function findShortMovies(moviesArray) {
     const result = moviesArray.filter(item => {
