@@ -137,6 +137,7 @@ function App() {
 
   function addItemSavedMovies(newMovie) {
     const updatedData = [...savedMovies, newMovie];
+    updatedData.sort((a, b) => a.movieId - b.movieId);
     setSavedMovies(updatedData);
   }
   function removeItemSavedMovies(removeMovie) {
