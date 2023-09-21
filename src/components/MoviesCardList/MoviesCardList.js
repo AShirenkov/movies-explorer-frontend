@@ -23,15 +23,16 @@ function MoviesCardList({
 
   useLayoutEffect(() => {
     // setCountCards(countCard);
-
+    console.log(moviesList);
     setCountCards(width > 900 ? 16 : width > 450 ? 8 : 5);
     setCountCardsAdd(width > 900 ? 4 : width > 450 ? 2 : 2);
 
     if (moviesList.length < countCards || isSavedMovies) {
       setIsMoviesFinished(true);
       setCountCards(moviesList.length);
+      console.log(moviesList.length);
     } // eslint-disable-next-line
-  }, []);
+  }, [savedMovies, moviesList]);
 
   // useEffect(() => {
   //   setCountCardInitial(countCard);

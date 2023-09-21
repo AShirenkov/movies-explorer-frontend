@@ -102,15 +102,16 @@ function App() {
 
   useLayoutEffect(() => {
     function updateSize() {
-      setWidth(window.innerWidth);
-
+      setTimeout(function () {
+        setWidth(window.innerWidth);
+      }, 500);
       setIsBurger(width > 900 ? false : true);
     }
     updateSize();
 
     window.addEventListener('resize', updateSize);
     return () => window.removeEventListener('resize', updateSize);
-  }, [width]);
+  }, []);
 
   // useEffect(() => {
   //   setCurrentUser({ name: 'Виталий', email: 'pochta@yandex.ru' });
