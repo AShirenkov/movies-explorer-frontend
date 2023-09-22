@@ -93,7 +93,9 @@ function SearchForm({
   }
 
   function saveSearchResult(isShort) {
-    localStorage.setItem('search', JSON.stringify({ text: getValues('movie'), isShort }));
+    if (!isSavedMovies) {
+      localStorage.setItem('search', JSON.stringify({ text: getValues('movie'), isShort }));
+    }
   }
 
   function onSwitcherShortClick() {
@@ -111,8 +113,6 @@ function SearchForm({
   }
 
   function onSubmit(data) {
-    // console.log(data);
-    // setSearchResultShort(findShortMovies(movies));
     setIsDownload(true);
     const result = isShortSwitchOn
       ? findMoviesByKey(findShortMovies(movies), data.movie)

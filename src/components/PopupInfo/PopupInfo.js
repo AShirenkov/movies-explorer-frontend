@@ -1,7 +1,5 @@
 import React from 'react';
 
-import logo from '../../images/fail.png';
-
 import './PopupInfo.css';
 function PopupInfo({ isOpened, onButtonCloseClick, infoMessage }) {
   return (

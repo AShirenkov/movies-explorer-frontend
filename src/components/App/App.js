@@ -30,7 +30,6 @@ function App() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const [isPopupInfoOpen, setIsPopupInfoOpen] = useState(false);
-  const [isPopupInfoStatus, setIsPopupInfoStatus] = useState(false);
   const [popupInfoMessage, setPopupInfoMessage] = useState('');
 
   const [movies, setMovies] = useState([]);
@@ -131,7 +130,6 @@ function App() {
         // setSuccessInfoTooltipStatus(false);
         // setIsInfoTooltipPopupOpen(true);
         setPopupInfoMessage(err.message);
-        setIsPopupInfoStatus(true);
         setIsPopupInfoOpen(true);
         console.log(err.message);
       });
@@ -148,11 +146,6 @@ function App() {
         navigate('/movies');
       })
       .catch(err => {
-        //не было в ТЗ но решил добавить выдачу окошка с ошибкой
-        // setSuccessInfoTooltipStatus(false);
-        // setIsInfoTooltipPopupOpen(true);
-
-        setIsPopupInfoStatus(true);
         setIsPopupInfoOpen(true);
         setPopupInfoMessage(err.message);
       });

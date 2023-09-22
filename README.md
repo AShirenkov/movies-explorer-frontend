@@ -4,6 +4,8 @@
 
 Адрес репозитория: https://github.com/AShirenkov/movies-explorer-frontend
 
+Ссылка на Pullrequest:
+https://github.com/AShirenkov/movies-explorer-frontend/pull/2
 ## Ссылки на дизайн
 
 Выбранна тема dark-1
