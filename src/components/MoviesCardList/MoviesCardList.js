@@ -13,7 +13,7 @@ function MoviesCardList({
   removeItemSavedMovies,
   width
 }) {
-  const [isMoviesFinished, setIsMoviesFinished] = useState(false);
+  // const [isMoviesFinished, setIsMoviesFinished] = useState(false);
   const currentLocation = useLocation();
   // const [countCardInitial, setCountCardInitial] = useState(countCard);
   const [countCards, setCountCards] = useState(0);
@@ -28,22 +28,21 @@ function MoviesCardList({
     setCountCardsAdd(width > 900 ? 4 : width > 450 ? 2 : 2);
 
     if (moviesList.length - 1 < countCards || isSavedMovies) {
-      setIsMoviesFinished(false);
+      // setIsMoviesFinished(false);
       setCountCards(moviesList.length);
-      console.log(moviesList.length);
     } // eslint-disable-next-line
-  }, [savedMovies, moviesList]);
+  }, [moviesList]);
 
-  useLayoutEffect(() => {
-    // setCountCards(countCard);
-    // console.log(moviesList);
+  // useLayoutEffect(() => {
+  //   // setCountCards(countCard);
+  //   // console.log(moviesList);
 
-    if (moviesList.length < countCards || isSavedMovies) {
-      setIsMoviesFinished(false);
+  //   if (moviesList.length < countCards || isSavedMovies) {
+  //     setIsMoviesFinished(false);
 
-      console.log(moviesList.length);
-    } // eslint-disable-next-line
-  }, [countCards]);
+  //     console.log(moviesList.length);
+  //   } // eslint-disable-next-line
+  // }, [countCards]);
 
   // useEffect(() => {
   //   setCountCardInitial(countCard);
@@ -51,7 +50,7 @@ function MoviesCardList({
 
   function onAddClick() {
     if (moviesList.length < countCards + countCardsAdd) {
-      setIsMoviesFinished(true);
+      // setIsMoviesFinished(true);
       setCountCards(moviesList.length);
     } else {
       setCountCards(countCards + countCardsAdd);

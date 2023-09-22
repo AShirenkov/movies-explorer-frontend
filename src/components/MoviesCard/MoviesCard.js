@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import './MoviesCard.css';
 import savedMoviesApi from '../../utils/SavedMoviesApi';
+import { baseUrl } from '../../utils/constants';
 
 function MoviesCard({ movieCard, savedMovies, addItemSavedMovies, removeItemSavedMovies }) {
   const currentLocation = useLocation();
@@ -64,7 +65,14 @@ function MoviesCard({ movieCard, savedMovies, addItemSavedMovies, removeItemSave
   return (
     <div className='movies-card'>
       <div className='movies-card__img-container'>
-        <img src={movieCard.image} alt={movieCard.nameRU} className='movies-card__img' />
+        <a
+          href={movieCard.trailerLink}
+          target='_blank'
+          rel='noreferrer'
+          className='portfolio-link opacity-link'
+        >
+          <img src={movieCard.image} alt={movieCard.nameRU} className='movies-card__img' />
+        </a>
       </div>
 
       <div className='movies-card__container'>

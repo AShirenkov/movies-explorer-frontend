@@ -33,8 +33,7 @@ function SearchForm({ setMoviesAfterFilter, movies, setIsDownload }) {
 
         setValue('movie', text || '');
       }
-      console.log('qqq');
-      console.log(savedSearchObj);
+
       const filterValue = getValues('movie');
 
       startFilter(filterValue, movies, isShortSwitchOn);
