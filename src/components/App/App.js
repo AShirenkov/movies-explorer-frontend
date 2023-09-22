@@ -104,8 +104,9 @@ function App() {
     function updateSize() {
       setTimeout(function () {
         setWidth(window.innerWidth);
-      }, 500);
-      setIsBurger(width > 900 ? false : true);
+
+        setIsBurger(window.innerWidth > 900 ? false : true);
+      }, 1000);
     }
     updateSize();
 

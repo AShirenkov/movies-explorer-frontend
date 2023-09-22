@@ -16,14 +16,13 @@ function SearchForm({ setMoviesAfterFilter, movies, setIsDownload }) {
     mode: 'all'
   });
   const [isShortSwitchOn, setIsShortSwitchOn] = useState(false);
-  const [searchResult, setSearchResult] = useState([]);
-  const [searchResultShort, setSearchResultShort] = useState([]);
+
   const currentLocation = useLocation();
   const isSavedMovies = currentLocation.pathname === '/saved-movies';
 
   useEffect(() => {
     // setIsShortSwitchOn(false);
-    setMoviesAfterFilter(movies || []);
+    isSavedMovies ? setMoviesAfterFilter(movies || []) : setMoviesAfterFilter([]);
   }, [movies]);
 
   useEffect(() => {
