@@ -27,12 +27,23 @@ function MoviesCardList({
     setCountCards(width > 900 ? 16 : width > 450 ? 8 : 5);
     setCountCardsAdd(width > 900 ? 4 : width > 450 ? 2 : 2);
 
-    if (moviesList.length < countCards || isSavedMovies) {
-      setIsMoviesFinished(true);
+    if (moviesList.length - 1 < countCards || isSavedMovies) {
+      setIsMoviesFinished(false);
       setCountCards(moviesList.length);
-      // console.log(moviesList.length);
+      console.log(moviesList.length);
     } // eslint-disable-next-line
   }, [savedMovies, moviesList]);
+
+  useLayoutEffect(() => {
+    // setCountCards(countCard);
+    // console.log(moviesList);
+
+    if (moviesList.length < countCards || isSavedMovies) {
+      setIsMoviesFinished(false);
+
+      console.log(moviesList.length);
+    } // eslint-disable-next-line
+  }, [countCards]);
 
   // useEffect(() => {
   //   setCountCardInitial(countCard);
@@ -59,7 +70,7 @@ function MoviesCardList({
           />
         ))}
       </div>
-      {!isMoviesFinished && !isSavedMovies && (
+      {moviesList.length - 1 > countCards && !isSavedMovies && (
         <button className='movies__add-button opacity-button' onClick={onAddClick}>
           Ещё
         </button>
