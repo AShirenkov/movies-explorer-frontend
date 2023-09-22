@@ -16,7 +16,7 @@ function Profile({ onLogout, onEdit, isBurger, onBurgerClick }) {
     reset,
     setValue
   } = useForm({
-    mode: 'onBlur'
+    mode: 'all'
   });
 
   const [isEditMode, setIsEditMode] = useState(false);

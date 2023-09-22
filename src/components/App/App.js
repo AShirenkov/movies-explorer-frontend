@@ -212,6 +212,7 @@ function App() {
 
   function handleLogout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('search');
     setLoggedIn(false);
     navigate('/');
   }

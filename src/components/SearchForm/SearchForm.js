@@ -10,6 +10,7 @@ function SearchForm({ setMoviesAfterFilter, movies, setIsDownload }) {
   const {
     register,
     getValues,
+    setValue,
     formState: { errors, isValid },
     handleSubmit
   } = useForm({
@@ -21,19 +22,57 @@ function SearchForm({ setMoviesAfterFilter, movies, setIsDownload }) {
   const isSavedMovies = currentLocation.pathname === '/saved-movies';
 
   useEffect(() => {
-    // setIsShortSwitchOn(false);
-    isSavedMovies ? setMoviesAfterFilter(movies || []) : setMoviesAfterFilter([]);
-  }, [movies]);
+    // localStorage.setItem('search', JSON.stringify({ textSearch, isShortSwitchOn }));
+
+    if (!isSavedMovies) {
+      const savedSearchObj = localStorage.getItem('search');
+      if (savedSearchObj) {
+        const { text, isShort } = JSON.parse(savedSearchObj);
+
+        setIsShortSwitchOn(isShort || false);
+
+        setValue('movie', text || '');
+      }
+      console.log('qqq');
+      console.log(savedSearchObj);
+      const filterValue = getValues('movie');
+
+      startFilter(filterValue, movies, isShortSwitchOn);
+    }
+  }, []);
 
   useEffect(() => {
     const filterValue = getValues('movie');
+    // setMoviesAfterFilter(movies || []);
 
-    const result = isShortSwitchOn
-      ? findMoviesByKey(findShortMovies(movies), filterValue)
-      : findMoviesByKey(movies, filterValue);
+    isSavedMovies
+      ? setMoviesAfterFilter(movies || [])
+      : startFilter(filterValue, movies, isShortSwitchOn);
+  }, [movies]);
 
-    setMoviesAfterFilter(result);
+  useEffect(() => {
+    // const filterValue = getValues('movie');
+
+    // const result = isShortSwitchOn
+    //   ? findMoviesByKey(findShortMovies(movies), filterValue)
+    //   : findMoviesByKey(movies, filterValue);
+
+    // !isSavedMovies && filterValue.length === 0
+    //   ? setMoviesAfterFilter([])
+    //   : setMoviesAfterFilter(result);
+    const filterValue = getValues('movie');
+    startFilter(filterValue, movies, isShortSwitchOn);
   }, [isShortSwitchOn]);
+
+  function startFilter(textFilter, arrayMovies, isShort) {
+    const result = isShort
+      ? findMoviesByKey(findShortMovies(arrayMovies), textFilter)
+      : findMoviesByKey(arrayMovies, textFilter);
+
+    !isSavedMovies && textFilter.length === 0
+      ? setMoviesAfterFilter([])
+      : setMoviesAfterFilter(result);
+  }
 
   function findShortMovies(moviesArray) {
     const result = moviesArray.filter(item => {
@@ -49,8 +88,9 @@ function SearchForm({ setMoviesAfterFilter, movies, setIsDownload }) {
         item.nameEN.toLowerCase().includes(textSearch.toLowerCase())
       );
     });
+
     setIsDownload(false);
-    console.log(result);
+    // console.log(result);
     return result;
   }
 
@@ -65,17 +105,24 @@ function SearchForm({ setMoviesAfterFilter, movies, setIsDownload }) {
   //   );
   // }
 
-  function onSwitcherShortClick(evt) {
+  function saveSearchResult(isShort) {
+    localStorage.setItem('search', JSON.stringify({ text: getValues('movie'), isShort }));
+  }
+
+  function onSwitcherShortClick() {
+    saveSearchResult(!isShortSwitchOn);
     setIsShortSwitchOn(!isShortSwitchOn);
   }
 
   function onSubmit(data) {
-    console.log(data);
+    // console.log(data);
     // setSearchResultShort(findShortMovies(movies));
+
     const result = isShortSwitchOn
       ? findMoviesByKey(findShortMovies(movies), data.movie)
       : findMoviesByKey(movies, data.movie);
 
+    saveSearchResult(isShortSwitchOn);
     setMoviesAfterFilter(result);
   }
 
