@@ -1,0 +1,67 @@
+.header-navi {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  justify-self: start;
+  max-width: 1057px;
+  width: 100%;
+
+  /* margin-left: 44px; */
+}
+.header-navi__movies-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 16px;
+}
+.header-navi__account {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+.header-navi__account-text {
+  color: #fff;
+  font-size: 12px;
+  line-height: 0.92;
+  font-style: normal;
+  font-weight: 500;
+
+  /* text-align: center; */
+}
+.header-navi__account-logo {
+  /* min-width: 26px;
+  min-height: 26px; */
+  border-radius: 50px;
+  background: #0f4157;
+  width: 10px;
+  height: 10px;
+  /* margin: 8px; */
+  padding: 8px;
+}
+.header-navi__account-logo_type_main {
+  background: #0f4157;
+}
+
+.header-navi__account-logo_type_other {
+  background: #313131;
+}
+
+.header-navi__text {
+  margin: 0;
+  padding: 0;
+  color: #fff;
+  font-size: 13px;
+  line-height: 1.38;
+  font-style: normal;
+  text-decoration: none;
+
+  align-self: center;
+}
+.header-navi__text_type_active {
+  font-weight: 400;
+}
+.header-navi__text_type_inactive {
+  font-weight: 500;
+}
