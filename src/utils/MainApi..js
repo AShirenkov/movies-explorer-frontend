@@ -44,7 +44,7 @@ class MainApi {
 }
 
 const mainApi = new MainApi({
-  baseUrl: 'https://api.ashir84.diplom.nomoredomainsicu.ru/'
+  baseUrl: 'https://api.ashir84.diplom.nomoredomainsicu.ru'
   // baseUrl: 'http://localhost:3000'
 });
 
