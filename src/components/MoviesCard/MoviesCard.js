@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import './MoviesCard.css';
 import savedMoviesApi from '../../utils/SavedMoviesApi';
-import { baseUrl } from '../../utils/constants';
 
 function MoviesCard({ movieCard, savedMovies, addItemSavedMovies, removeItemSavedMovies }) {
   const currentLocation = useLocation();
@@ -17,7 +16,7 @@ function MoviesCard({ movieCard, savedMovies, addItemSavedMovies, removeItemSave
       savedMovies.some(savedMovie => savedMovie.movieId === movieCard.movieId)
         ? setIsLiked(true)
         : setIsLiked(false);
-    }
+    } // eslint-disable-next-line
   }, []);
 
   const convertMinutesToHoursAndMinutes = time => {

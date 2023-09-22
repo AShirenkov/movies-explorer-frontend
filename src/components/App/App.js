@@ -3,14 +3,6 @@ import { useState, useEffect, useLayoutEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { baseUrl } from '../../utils/constants';
 
-// import { useNavigate, Navigate } from 'react-router-dom';
-
-// import { useWindowSize } from 'react-hooks';
-
-//import logo from './logo.svg';
-//import './App.css';
-
-// import Header from '../Header/Header';
 import Main from '../Main/Main';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Login from '../Login/Login';
@@ -23,14 +15,13 @@ import SavedMovies from '../SavedMovies/SavedMovies';
 import authApi from '../../utils/AuthApi';
 import moviesApi from '../../utils/MoviesApi';
 import savedMoviesApi from '../../utils/SavedMoviesApi';
-import api from '../../utils/Api';
 
 import PopupInfo from '../PopupInfo/PopupInfo';
 
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import PopupNavi from '../PopupNavi/PopupNavi';
 
-import { useNavigate, Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -55,21 +46,6 @@ function App() {
     checkToken();
     // eslint-disable-next-line
   }, []);
-
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //   moviesApi
-  //     .getMovies()
-  //     .then(movies => {
-  //       console.log(movies);
-  //       setMovies(movies);
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-
-  //   // eslint-disable-next-line
-  // }, []);
 
   useEffect(() => {
     setIsDownload(true);
@@ -113,11 +89,6 @@ function App() {
     window.addEventListener('resize', updateSize);
     return () => window.removeEventListener('resize', updateSize);
   }, []);
-
-  // useEffect(() => {
-  //   setCurrentUser({ name: 'Виталий', email: 'pochta@yandex.ru' });
-  //   setLoggedIn(true);
-  // }, []);
 
   function slimMovies(movies) {
     return movies.map(movie => ({
@@ -221,8 +192,6 @@ function App() {
       .setUserInfo(objUser)
       .then(values => {
         setCurrentUser(values);
-
-        //closeAllPopups();
       })
       .catch(err => {
         console.log(err);
@@ -245,38 +214,16 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className='page'>
         <Routes>
-          {/* <Route
-            path='/'
-            element={
-              <ProtectedRoute
-                element={Main}
-                isLoggedIn={isLoggedIn}
-                isBurger={isBurger}
-                onBurgerClick={handlePopupOpen}
-              />
-            }
-          /> */}
           <Route
             path='/'
             element={
               <Main isLoggedIn={isLoggedIn} isBurger={isBurger} onBurgerClick={handlePopupOpen} />
             }
           />
-          {/* <Route path='/sign-up' element={<Register onRegister={handleRegister} />} />
-          <Route path='/sign-in' element={<Login onLogin={handleLogin} />} /> */}
 
           <Route path='/signup' element={<Register onRegister={handleRegister} />} />
           <Route path='/signin' element={<Login onLogin={handleLogin} />} />
-          {/* <Route
-            path='/profile'
-            element={
-              <Profile
-                isLoggedIn={isLoggedIn}
-                isBurger={isBurger}
-                onBurgerClick={handlePopupOpen}
-              />
-            }
-          /> */}
+
           <Route
             path='/profile'
             element={
@@ -327,28 +274,6 @@ function App() {
             }
           />
 
-          {/* <Route
-            path='/movies'
-            element={
-              <Movies
-                isLoggedIn={isLoggedIn}
-                isBurger={isBurger}
-                countCard={countCard}
-                onBurgerClick={handlePopupOpen}
-              />
-            }
-          /> */}
-          {/* <Route
-            path='/saved-movies'
-            element={
-              <SavedMovies
-                isLoggedIn={isLoggedIn}
-                isBurger={isBurger}
-                countCard={countCard}
-                onBurgerClick={handlePopupOpen}
-              />
-            }
-          /> */}
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
         <PopupNavi onButtonCloseClick={handlePopupClose} isPopupOpen={isPopupOpen} />
@@ -357,8 +282,6 @@ function App() {
           isOpened={isPopupInfoOpen}
           infoMessage={popupInfoMessage}
         />
-        {/* <Header>test</Header> */}
-        {/* <Main /> */}
       </div>
     </CurrentUserContext.Provider>
   );

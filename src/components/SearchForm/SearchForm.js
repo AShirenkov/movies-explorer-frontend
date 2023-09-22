@@ -38,6 +38,7 @@ function SearchForm({ setMoviesAfterFilter, movies, setIsDownload }) {
 
       startFilter(filterValue, movies, isShortSwitchOn);
     }
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -47,20 +48,13 @@ function SearchForm({ setMoviesAfterFilter, movies, setIsDownload }) {
     isSavedMovies
       ? setMoviesAfterFilter(movies || [])
       : startFilter(filterValue, movies, isShortSwitchOn);
+    // eslint-disable-next-line
   }, [movies]);
 
   useEffect(() => {
-    // const filterValue = getValues('movie');
-
-    // const result = isShortSwitchOn
-    //   ? findMoviesByKey(findShortMovies(movies), filterValue)
-    //   : findMoviesByKey(movies, filterValue);
-
-    // !isSavedMovies && filterValue.length === 0
-    //   ? setMoviesAfterFilter([])
-    //   : setMoviesAfterFilter(result);
     const filterValue = getValues('movie');
     startFilter(filterValue, movies, isShortSwitchOn);
+    // eslint-disable-next-line
   }, [isShortSwitchOn]);
 
   function startFilter(textFilter, arrayMovies, isShort) {
