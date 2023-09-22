@@ -20,7 +20,9 @@ function Movies({
   isBurger,
 
   width,
-  onBurgerClick
+  onBurgerClick,
+  setIsPopupInfoOpen,
+  setPopupInfoMessage
 }) {
   //   const [moviesList, setMoviesList] = useState({});
   //   useEffect(() => {
@@ -37,7 +39,10 @@ function Movies({
         <SearchForm
           setMoviesAfterFilter={setMoviesAfterFilter}
           movies={movies}
+          moviesAfterFilter={moviesAfterFilter}
           setIsDownload={setIsDownload}
+          setIsPopupInfoOpen={setIsPopupInfoOpen}
+          setPopupInfoMessage={setPopupInfoMessage}
         />
         {isDownload ? (
           <Preloader />

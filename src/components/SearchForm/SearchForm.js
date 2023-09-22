@@ -6,7 +6,14 @@ import findLogo from '../../images/find.svg';
 import findShortFindOn from '../../images/find-shortOn.svg';
 import findShortFindOff from '../../images/find-shortOff.svg';
 
-function SearchForm({ setMoviesAfterFilter, movies, setIsDownload }) {
+function SearchForm({
+  setMoviesAfterFilter,
+  movies,
+  moviesAfterFilter,
+  setIsDownload,
+  setIsPopupInfoOpen,
+  setPopupInfoMessage
+}) {
   const {
     register,
     getValues,
@@ -54,6 +61,7 @@ function SearchForm({ setMoviesAfterFilter, movies, setIsDownload }) {
   useEffect(() => {
     const filterValue = getValues('movie');
     startFilter(filterValue, movies, isShortSwitchOn);
+
     // eslint-disable-next-line
   }, [isShortSwitchOn]);
 
@@ -74,7 +82,6 @@ function SearchForm({ setMoviesAfterFilter, movies, setIsDownload }) {
     return result;
   }
   function findMoviesByKey(moviesArray, textSearch) {
-    setIsDownload(true);
     const result = moviesArray.filter(item => {
       return (
         item.nameRU.toLowerCase().includes(textSearch.toLowerCase()) ||
@@ -82,21 +89,8 @@ function SearchForm({ setMoviesAfterFilter, movies, setIsDownload }) {
       );
     });
 
-    setIsDownload(false);
-    // console.log(result);
     return result;
   }
-
-  // function findMoviesByKey(moviesArray, textSearch) {
-  //   setSearchResult(
-  //     moviesArray.filter(item => {
-  //       return (
-  //         item.nameRU.toLowerCase().includes(textSearch.toLowerCase()) ||
-  //         item.nameEN.toLowerCase().includes(textSearch.toLowerCase())
-  //       );
-  //     })
-  //   );
-  // }
 
   function saveSearchResult(isShort) {
     localStorage.setItem('search', JSON.stringify({ text: getValues('movie'), isShort }));
@@ -105,15 +99,32 @@ function SearchForm({ setMoviesAfterFilter, movies, setIsDownload }) {
   function onSwitcherShortClick() {
     saveSearchResult(!isShortSwitchOn);
     setIsShortSwitchOn(!isShortSwitchOn);
+
+    setIsDownload(true);
+    setTimeout(function () {
+      setIsDownload(false);
+      if (moviesAfterFilter.length === 0) {
+        setPopupInfoMessage('Фильмы с указанными параметрами поиска отсутствуют');
+        setIsPopupInfoOpen(true);
+      }
+    }, 1000);
   }
 
   function onSubmit(data) {
     // console.log(data);
     // setSearchResultShort(findShortMovies(movies));
-
+    setIsDownload(true);
     const result = isShortSwitchOn
       ? findMoviesByKey(findShortMovies(movies), data.movie)
       : findMoviesByKey(movies, data.movie);
+
+    setTimeout(function () {
+      setIsDownload(false);
+      if (result.length === 0) {
+        setPopupInfoMessage('Фильмы с указанными параметрами поиска отсутствуют');
+        setIsPopupInfoOpen(true);
+      }
+    }, 1000);
 
     saveSearchResult(isShortSwitchOn);
     setMoviesAfterFilter(result);

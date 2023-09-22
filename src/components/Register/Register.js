@@ -8,10 +8,10 @@ function Register({ onRegister }) {
     register,
 
     formState: { errors, isValid },
-    handleSubmit,
-    reset
+    handleSubmit
+    //reset
   } = useForm({
-    mode: 'onBlur'
+    mode: 'all'
   });
 
   // const onSubmit = data => reset();

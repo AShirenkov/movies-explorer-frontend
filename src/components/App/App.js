@@ -14,7 +14,7 @@ import SavedMovies from '../SavedMovies/SavedMovies';
 
 import authApi from '../../utils/AuthApi';
 import moviesApi from '../../utils/MoviesApi';
-import savedMoviesApi from '../../utils/SavedMoviesApi';
+import mainApi from '../../utils/MainApi.';
 
 import PopupInfo from '../PopupInfo/PopupInfo';
 
@@ -64,7 +64,7 @@ function App() {
   useEffect(() => {
     if (isLoggedIn) {
       setIsDownload(true);
-      Promise.all([authApi.getMyUser(), savedMoviesApi.getMovies()])
+      Promise.all([authApi.getMyUser(), mainApi.getMovies()])
         .then(([userInfo, savedMovies]) => {
           setCurrentUser(userInfo);
           setSavedMovies(savedMovies);
@@ -134,8 +134,6 @@ function App() {
         setIsPopupInfoStatus(true);
         setIsPopupInfoOpen(true);
         console.log(err.message);
-
-        console.log(err);
       });
   }
 
@@ -145,7 +143,7 @@ function App() {
       .then(values => {
         localStorage.setItem('token', values.token);
         setLoggedIn(true);
-        console.log('eурра');
+
         // setCurrentEmail(email);
         navigate('/movies');
       })
@@ -157,8 +155,6 @@ function App() {
         setIsPopupInfoStatus(true);
         setIsPopupInfoOpen(true);
         setPopupInfoMessage(err.message);
-        console.log('хмм');
-        console.log(err);
       });
   }
 
@@ -196,10 +192,6 @@ function App() {
       .catch(err => {
         console.log(err);
       });
-  }
-
-  function handlePopupInfoOpen() {
-    setIsPopupInfoOpen(true);
   }
 
   function handlePopupOpen() {
@@ -252,6 +244,8 @@ function App() {
                 isBurger={isBurger}
                 onBurgerClick={handlePopupOpen}
                 width={width}
+                setIsPopupInfoOpen={setIsPopupInfoOpen}
+                setPopupInfoMessage={setPopupInfoMessage}
               />
             }
           />
@@ -270,6 +264,8 @@ function App() {
                 isBurger={isBurger}
                 onBurgerClick={handlePopupOpen}
                 width={width}
+                setIsPopupInfoOpen={setIsPopupInfoOpen}
+                setPopupInfoMessage={setPopupInfoMessage}
               />
             }
           />

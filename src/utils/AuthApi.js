@@ -1,7 +1,8 @@
 import {
   ERROR_REGISTER_USER,
   ERROR_AUTH_TOKEN_TRASFER,
-  ERROR_ALREADY_EXIST_USER
+  ERROR_ALREADY_EXIST_USER,
+  INTERNAL_SERVER_ERROR
 } from './PopupInfoMessageConstants.js';
 
 class AuthApi {
@@ -9,39 +10,17 @@ class AuthApi {
     this._baseUrl = baseUrl;
   }
 
-  // _checkResponse(res) {
-  //   if (res.ok) {
-  //     return res.json();
-  //   }
-  //   return Promise.reject(`Ошибка сервера: ${res.status}`);
-  // }
-
   _checkResponse(res) {
     if (res.ok) {
       return res.json();
-    }
-    if (res.status === 400) {
+    } else if (res.status === 400) {
       res.message = ERROR_REGISTER_USER;
-    }
-    if (res.status === 401) {
+    } else if (res.status === 401) {
       res.message = ERROR_AUTH_TOKEN_TRASFER;
-    }
-    if (res.status === 409) {
+    } else if (res.status === 409) {
       res.message = ERROR_ALREADY_EXIST_USER;
-    } else {
-      res.message = res.statusText;
-    }
-    return Promise.reject(res);
-  }
-  _setMessage(res) {
-    if (res.status === 400) {
-      res.message = ERROR_REGISTER_USER;
-    }
-    if (res.status === 401) {
-      res.message = ERROR_AUTH_TOKEN_TRASFER;
-    }
-    if (res.status === 409) {
-      res.message = ERROR_ALREADY_EXIST_USER;
+    } else if (res.status === 500) {
+      res.message = INTERNAL_SERVER_ERROR;
     } else {
       res.message = res.statusText;
     }

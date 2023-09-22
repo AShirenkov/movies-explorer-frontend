@@ -1,4 +1,4 @@
-class SavedMoviesApi {
+class MainApi {
   constructor({ baseUrl }) {
     this._baseUrl = baseUrl;
     //this._headers = headers;
@@ -43,9 +43,9 @@ class SavedMoviesApi {
   }
 }
 
-const savedMoviesApi = new SavedMoviesApi({
+const mainApi = new MainApi({
   // baseUrl: 'https://api.ashir84.diplom.nomoredomainsicu.ru/'
   baseUrl: 'http://localhost:3000'
 });
 
-export default savedMoviesApi;
+export default mainApi;

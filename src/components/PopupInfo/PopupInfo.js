@@ -8,7 +8,7 @@ function PopupInfo({ isOpened, onButtonCloseClick, infoMessage }) {
     <div className={`popup-info ${isOpened ? 'popup-info_opened' : ''}`}>
       <div className='popup-info__container'>
         <div>
-          <img className='popup-info__img' src={logo} alt={infoMessage} />
+          {/* <img className='popup-info__img' src={logo} alt={infoMessage} /> */}
           <p className='popup-info__text'>{infoMessage}</p>
         </div>
 

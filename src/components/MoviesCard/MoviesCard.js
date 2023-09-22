@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import './MoviesCard.css';
-import savedMoviesApi from '../../utils/SavedMoviesApi';
+import mainApi from '../../utils/MainApi.';
 
 function MoviesCard({ movieCard, savedMovies, addItemSavedMovies, removeItemSavedMovies }) {
   const currentLocation = useLocation();
@@ -30,7 +30,7 @@ function MoviesCard({ movieCard, savedMovies, addItemSavedMovies, removeItemSave
   };
   function onSavedClick() {
     isSavedMovies
-      ? savedMoviesApi
+      ? mainApi
           .removeMovieById(movieCard.movieId)
           .then(() => {
             removeItemSavedMovies(movieCard);
@@ -39,7 +39,7 @@ function MoviesCard({ movieCard, savedMovies, addItemSavedMovies, removeItemSave
             console.log(err);
           })
       : isLiked
-      ? savedMoviesApi
+      ? mainApi
           .removeMovieById(movieCard.movieId)
           .then(() => {
             removeItemSavedMovies(movieCard);
@@ -48,7 +48,7 @@ function MoviesCard({ movieCard, savedMovies, addItemSavedMovies, removeItemSave
           .catch(err => {
             console.log(err);
           })
-      : savedMoviesApi
+      : mainApi
           .addNewMovie(movieCard)
           .then(() => {
             setIsLiked(true);

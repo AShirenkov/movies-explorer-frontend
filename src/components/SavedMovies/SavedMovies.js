@@ -18,7 +18,9 @@ function SavedMovies({
   isBurger,
 
   onBurgerClick,
-  width
+  width,
+  setIsPopupInfoOpen,
+  setPopupInfoMessage
 }) {
   const [moviesAfterFilter, setMoviesAfterFilter] = useState([]);
   const isLoggedIn = true;
@@ -31,6 +33,9 @@ function SavedMovies({
           setMoviesAfterFilter={setMoviesAfterFilter}
           movies={savedMovies}
           setIsDownload={setIsDownload}
+          moviesAfterFilter={moviesAfterFilter}
+          setIsPopupInfoOpen={setIsPopupInfoOpen}
+          setPopupInfoMessage={setPopupInfoMessage}
         />
         {isDownload ? (
           <Preloader />

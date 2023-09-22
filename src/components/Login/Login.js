@@ -8,15 +8,14 @@ function Login({ onLogin }) {
     register,
 
     formState: { errors, isValid },
-    handleSubmit,
-    reset
+    handleSubmit
+    //reset
   } = useForm({
-    mode: 'onBlur'
+    mode: 'all'
   });
 
   function onSubmit(data) {
-    console.log(data);
-    // const { name, email, password } = data;
+    // console.log(data);
 
     onLogin(data);
     // evt.preventDefault();
