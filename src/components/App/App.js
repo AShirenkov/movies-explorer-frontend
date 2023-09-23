@@ -181,9 +181,12 @@ function App() {
       .setUserInfo(objUser)
       .then(values => {
         setCurrentUser(values);
+        setIsPopupInfoOpen(true);
+        setPopupInfoMessage('Пользовательские данные обновлены');
       })
       .catch(err => {
-        console.log(err);
+        setIsPopupInfoOpen(true);
+        setPopupInfoMessage('Ошибка обновления пользовательских данных');
       });
   }
 
