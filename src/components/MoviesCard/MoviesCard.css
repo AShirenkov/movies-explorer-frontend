@@ -109,6 +109,12 @@
   }
 }
 
+@media (max-width: 767px) {
+  .movies-card__button_mode_remove-save {
+    opacity: 1;
+  }
+}
+
 @media (max-width: 450px) {
   .movies-card__img {
     max-height: 168px;
@@ -120,11 +126,6 @@
     gap: 12px;
   }
   .movies-card__remove-button {
-    opacity: 1;
-  }
-  .movies-card__button_mode_remove-save {
-    background-image: url('../../images/saved-remove.svg');
-    transition: opacity 0.5s linear;
     opacity: 1;
   }
 }

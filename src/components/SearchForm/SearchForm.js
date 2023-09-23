@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import findLogo from '../../images/find.svg';
 import findShortFindOn from '../../images/find-shortOn.svg';
 import findShortFindOff from '../../images/find-shortOff.svg';
+import { SHORT_MOVIE_DURATION } from '../../utils/constants';
 
 function SearchForm({
   setMoviesAfterFilter,
@@ -80,7 +81,7 @@ function SearchForm({
 
   function findShortMovies(moviesArray) {
     const result = moviesArray.filter(item => {
-      return item.duration <= 40;
+      return item.duration <= SHORT_MOVIE_DURATION;
     });
     return result;
   }

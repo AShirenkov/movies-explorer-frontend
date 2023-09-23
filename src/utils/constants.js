@@ -13,3 +13,5 @@ export const CARD_ADD_ONE_IN_ROW = 2;
 export const WIDTH_THREE_CARD = 1279;
 export const WIDTH_TWO_CARD = 989;
 export const WIDTH_ONE_CARD = 767;
+
+export const SHORT_MOVIE_DURATION = 40;

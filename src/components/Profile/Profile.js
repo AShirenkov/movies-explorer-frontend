@@ -30,7 +30,7 @@ function Profile({ onLogout, onEdit, isBurger, onBurgerClick }) {
     evt.preventDefault();
   }
   function onLogoutClick() {
-    console.log('нажата клавиша выйти из аккаунта');
+    // console.log('нажата клавиша выйти из аккаунта');
     onLogout();
     // setIsEditMode(true);
   }
@@ -69,9 +69,7 @@ function Profile({ onLogout, onEdit, isBurger, onBurgerClick }) {
                     message: 'Введите имя длинной от 3 символов'
                   },
                   validate: value =>
-                    getValues('email') !== currentUser.email ||
-                    value !== currentUser.name ||
-                    'Вы оставили существующие данные'
+                    getValues('email') !== currentUser.email || value !== currentUser.name || ''
                 })}
               />
               <div className='profile__input-error'>
@@ -98,9 +96,7 @@ function Profile({ onLogout, onEdit, isBurger, onBurgerClick }) {
                     message: 'Введенный  E-mail не допустим.'
                   },
                   validate: value =>
-                    getValues('name') !== currentUser.name ||
-                    value !== currentUser.email ||
-                    'Вы оставили существующие данные'
+                    getValues('name') !== currentUser.name || value !== currentUser.email || ''
                 })}
               />
               <div className='profile__input-error'>
