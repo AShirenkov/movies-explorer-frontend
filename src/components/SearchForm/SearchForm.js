@@ -49,12 +49,15 @@ function SearchForm({
   }, []);
 
   useEffect(() => {
-    const filterValue = getValues('movie');
-    // setMoviesAfterFilter(movies || []);
+    isSavedMovies && setMoviesAfterFilter(movies || []);
 
-    isSavedMovies
-      ? setMoviesAfterFilter(movies || [])
-      : startFilter(filterValue, movies, isShortSwitchOn);
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    const filterValue = getValues('movie');
+
+    startFilter(filterValue, movies, isShortSwitchOn);
     // eslint-disable-next-line
   }, [movies]);
 
