@@ -5,6 +5,20 @@ import { useLocation } from 'react-router-dom';
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
+import {
+  CARD_COUNT_FOUR_IN_ROW,
+  CARD_COUNT_THREE_IN_ROW,
+  CARD_COUNT_TWO_IN_ROW,
+  CARD_COUNT_ONE_IN_ROW,
+  CARD_ADD_FOUR_IN_ROW,
+  CARD_ADD_THREE_IN_ROW,
+  CARD_ADD_TWO_IN_ROW,
+  CARD_ADD_ONE_IN_ROW,
+  WIDTH_THREE_CARD,
+  WIDTH_TWO_CARD,
+  WIDTH_ONE_CARD
+} from '../../utils/constants.js';
+
 function MoviesCardList({
   moviesList,
   savedMovies,
@@ -20,8 +34,24 @@ function MoviesCardList({
   const isSavedMovies = currentLocation.pathname === '/saved-movies';
 
   useLayoutEffect(() => {
-    setCountCards(width > 900 ? 16 : width > 450 ? 8 : 5);
-    setCountCardsAdd(width > 900 ? 4 : width > 450 ? 2 : 2);
+    setCountCards(
+      width > WIDTH_THREE_CARD
+        ? CARD_COUNT_FOUR_IN_ROW
+        : width > WIDTH_TWO_CARD
+        ? CARD_COUNT_THREE_IN_ROW
+        : width > WIDTH_ONE_CARD
+        ? CARD_COUNT_TWO_IN_ROW
+        : CARD_COUNT_ONE_IN_ROW
+    );
+    setCountCardsAdd(
+      width > WIDTH_THREE_CARD
+        ? CARD_ADD_FOUR_IN_ROW
+        : width > WIDTH_TWO_CARD
+        ? CARD_ADD_THREE_IN_ROW
+        : width > WIDTH_ONE_CARD
+        ? CARD_ADD_TWO_IN_ROW
+        : CARD_ADD_ONE_IN_ROW
+    );
 
     if (moviesList.length - 1 < countCards || isSavedMovies) {
       setCountCards(moviesList.length);

@@ -119,4 +119,12 @@
   .movies-card {
     gap: 12px;
   }
+  .movies-card__remove-button {
+    opacity: 1;
+  }
+  .movies-card__button_mode_remove-save {
+    background-image: url('../../images/saved-remove.svg');
+    transition: opacity 0.5s linear;
+    opacity: 1;
+  }
 }
