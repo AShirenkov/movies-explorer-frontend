@@ -124,7 +124,7 @@ function App() {
         // setSuccessInfoTooltipStatus(true);
         // setIsInfoTooltipPopupOpen(true);
         handleLogin({ password, email });
-        navigate('/movies');
+        // navigate('/movies');
       })
       .catch(err => {
         // setSuccessInfoTooltipStatus(false);
@@ -159,7 +159,7 @@ function App() {
         .then(values => {
           setCurrentUser({ name: values.name, email: values.email });
           setLoggedIn(true);
-          navigate('/movies');
+          // navigate('/movies');
         })
         .catch(err => {
           setLoggedIn(false);
