@@ -3,6 +3,7 @@ import { useState, useEffect, useLayoutEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { baseUrl } from '../../utils/constants';
 
+import MoviesRoute from '../MoviesRoute/MoviesRoute';
 import Main from '../Main/Main';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Login from '../Login/Login';
@@ -209,8 +210,16 @@ function App() {
             }
           />
 
-          <Route path='/signup' element={<Register onRegister={handleRegister} />} />
-          <Route path='/signin' element={<Login onLogin={handleLogin} />} />
+          <Route
+            path='/signup'
+            element={
+              <MoviesRoute element={Register} isLoggedIn={isLoggedIn} onRegister={handleRegister} />
+            }
+          />
+          <Route
+            path='/signin'
+            element={<MoviesRoute element={Login} isLoggedIn={isLoggedIn} onLogin={handleLogin} />}
+          />
 
           <Route
             path='/profile'
