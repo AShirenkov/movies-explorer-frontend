@@ -34,7 +34,7 @@ function App() {
   const [popupInfoMessage, setPopupInfoMessage] = useState('');
 
   const [movies, setMovies] = useState([]);
-  const [savedMovies, setSavedMovies] = useState({});
+  const [savedMovies, setSavedMovies] = useState([]);
 
   const [width, setWidth] = useState(window.innerWidth);
 
