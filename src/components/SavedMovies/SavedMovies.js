@@ -14,7 +14,8 @@ function SavedMovies({
   addItemSavedMovies,
   removeItemSavedMovies,
   isDownload,
-  setIsDownload,
+  isDownloadSaved,
+
   isBurger,
 
   onBurgerClick,
@@ -32,12 +33,11 @@ function SavedMovies({
         <SearchForm
           setMoviesAfterFilter={setMoviesAfterFilter}
           movies={savedMovies}
-          setIsDownload={setIsDownload}
           moviesAfterFilter={moviesAfterFilter}
           setIsPopupInfoOpen={setIsPopupInfoOpen}
           setPopupInfoMessage={setPopupInfoMessage}
         />
-        {isDownload ? (
+        {isDownload || isDownloadSaved ? (
           <Preloader />
         ) : (
           <MoviesCardList

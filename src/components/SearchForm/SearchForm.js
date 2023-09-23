@@ -11,7 +11,7 @@ function SearchForm({
   setMoviesAfterFilter,
   movies,
   moviesAfterFilter,
-  setIsDownload,
+
   setIsPopupInfoOpen,
   setPopupInfoMessage,
   isMoviesLoadState,
@@ -27,6 +27,7 @@ function SearchForm({
     mode: 'all'
   });
   const [isShortSwitchOn, setIsShortSwitchOn] = useState(false);
+  const [isSearchOn, setIsSearchOn] = useState(false);
 
   const currentLocation = useLocation();
   const isSavedMovies = currentLocation.pathname === '/saved-movies';
@@ -42,7 +43,10 @@ function SearchForm({
         setIsShortSwitchOn(isShort || false);
 
         setValue('movie', text || '');
-        setIsMoviesLoadState(1);
+        if (isMoviesLoadState === 0) {
+          setIsMoviesLoadState(1);
+        }
+        // setIsSearchOn(true);
       }
 
       const filterValue = getValues('movie');
@@ -77,9 +81,19 @@ function SearchForm({
       ? findMoviesByKey(findShortMovies(arrayMovies), textFilter)
       : findMoviesByKey(arrayMovies, textFilter);
 
-    !isSavedMovies && textFilter.length === 0
-      ? setMoviesAfterFilter([])
-      : setMoviesAfterFilter(result);
+    !isSavedMovies && textFilter.length ? setMoviesAfterFilter([]) : setMoviesAfterFilter(result);
+
+    if (isSearchOn && result.length === 0) {
+      setPopupInfoMessage('Фильмы с указанными параметрами поиска отсутствуют');
+      setIsPopupInfoOpen(true);
+      setIsSearchOn(false);
+    }
+    //  else if (isMoviesLoadState === 0) {
+    //   setIsSearchOn(true);
+    // }
+    else {
+      setIsSearchOn(false);
+    }
   }
 
   function findShortMovies(moviesArray) {
@@ -112,33 +126,30 @@ function SearchForm({
     saveSearchResult(!isShortSwitchOn);
     setIsShortSwitchOn(!isShortSwitchOn);
 
-    // setIsDownload(true);
-    // setTimeout(function () {
-    //   setIsDownload(false);
     if (moviesAfterFilter.length === 0) {
       setPopupInfoMessage('Фильмы с указанными параметрами поиска отсутствуют');
       setIsPopupInfoOpen(true);
     }
-    // }, 1000);
+    setIsSearchOn(true);
   }
 
   function onSubmit(data) {
     if (isMoviesLoadState === 0) {
       setIsMoviesLoadState(1);
     }
-    setIsDownload(true);
+    // setIsDownload(true);
     const result = isShortSwitchOn
       ? findMoviesByKey(findShortMovies(movies), data.movie)
       : findMoviesByKey(movies, data.movie);
 
     // setTimeout(function () {
-    setIsDownload(false);
+    // setIsDownload(false);
     if (result.length === 0) {
       setPopupInfoMessage('Фильмы с указанными параметрами поиска отсутствуют');
       setIsPopupInfoOpen(true);
     }
     // }, 1000);
-
+    setIsSearchOn(true);
     saveSearchResult(isShortSwitchOn);
     setMoviesAfterFilter(result);
   }

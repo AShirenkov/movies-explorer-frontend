@@ -39,6 +39,7 @@ function App() {
   const [width, setWidth] = useState(window.innerWidth);
 
   const [isDownload, setIsDownload] = useState(false);
+  const [isDownloadSaved, setIsDownloadSaved] = useState(false);
 
   const [isMoviesLoadState, setIsMoviesLoadState] = useState(0);
 
@@ -68,7 +69,7 @@ function App() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      setIsDownload(true);
+      setIsDownloadSaved(true);
       Promise.all([authApi.getMyUser(), mainApi.getMovies()])
         .then(([userInfo, savedMovies]) => {
           setCurrentUser(userInfo);
@@ -77,7 +78,7 @@ function App() {
         .catch(err => {
           console.log(err);
         })
-        .finally(() => setIsDownload(false));
+        .finally(() => setIsDownloadSaved(false));
     }
   }, [isLoggedIn]);
 
@@ -180,6 +181,7 @@ function App() {
     localStorage.removeItem('token');
     localStorage.removeItem('search');
     setLoggedIn(false);
+    setIsMoviesLoadState(0);
     navigate('/');
   }
   function handleUpdateUser(objUser) {
@@ -246,7 +248,7 @@ function App() {
                 element={Movies}
                 isLoggedIn={isLoggedIn}
                 isDownload={isDownload}
-                setIsDownload={setIsDownload}
+                isDownloadSaved={isDownloadSaved}
                 movies={movies}
                 savedMovies={savedMovies}
                 addItemSavedMovies={addItemSavedMovies}
@@ -268,7 +270,6 @@ function App() {
                 element={SavedMovies}
                 isLoggedIn={isLoggedIn}
                 isDownload={isDownload}
-                setIsDownload={setIsDownload}
                 movies={movies}
                 savedMovies={savedMovies}
                 addItemSavedMovies={addItemSavedMovies}

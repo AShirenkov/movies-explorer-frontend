@@ -13,7 +13,7 @@ function HeaderNavi({ isPopup }) {
       <div className='header-navi__movies-container'>
         <Link
           className={`header-navi__text ${
-            isMovies ? 'header-navi__text_type_active' : 'header-navi__text_type_inactive'
+            !isMovies ? 'header-navi__text_type_active' : 'header-navi__text_type_inactive'
           }`}
           to='/movies'
         >
@@ -21,7 +21,7 @@ function HeaderNavi({ isPopup }) {
         </Link>
         <Link
           className={`header-navi__text ${
-            isSavedMovies ? 'header-navi__text_type_active' : 'header-navi__text_type_inactive'
+            !isSavedMovies ? 'header-navi__text_type_active' : 'header-navi__text_type_inactive'
           }`}
           to='/saved-movies'
         >

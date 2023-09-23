@@ -16,7 +16,8 @@ function Movies({
   addItemSavedMovies,
   removeItemSavedMovies,
   isDownload,
-  setIsDownload,
+  isDownloadSaved,
+
   isBurger,
 
   width,
@@ -42,13 +43,12 @@ function Movies({
           setMoviesAfterFilter={setMoviesAfterFilter}
           movies={movies}
           moviesAfterFilter={moviesAfterFilter}
-          setIsDownload={setIsDownload}
           setIsPopupInfoOpen={setIsPopupInfoOpen}
           setPopupInfoMessage={setPopupInfoMessage}
           isMoviesLoadState={isMoviesLoadState}
           setIsMoviesLoadState={setIsMoviesLoadState}
         />
-        {isDownload ? (
+        {isDownload || isDownloadSaved ? (
           <Preloader />
         ) : (
           <MoviesCardList
