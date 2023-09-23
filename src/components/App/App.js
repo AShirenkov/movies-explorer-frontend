@@ -40,6 +40,8 @@ function App() {
 
   const [isDownload, setIsDownload] = useState(false);
 
+  const [isMoviesLoadState, setIsMoviesLoadState] = useState(0);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -48,18 +50,21 @@ function App() {
   }, []);
 
   useEffect(() => {
-    setIsDownload(true);
-    moviesApi
-      .getMovies()
+    if (isMoviesLoadState === 1) {
+      setIsDownload(true);
+      moviesApi
+        .getMovies()
 
-      .then(moviesList => {
-        setMovies(slimMovies(moviesList));
-      })
-      .catch(err => {
-        console.log(err);
-      })
-      .finally(() => setIsDownload(false));
-  }, []);
+        .then(moviesList => {
+          setMovies(slimMovies(moviesList));
+          setIsMoviesLoadState(2);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => setIsDownload(false));
+    }
+  }, [isMoviesLoadState]);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -251,6 +256,8 @@ function App() {
                 width={width}
                 setIsPopupInfoOpen={setIsPopupInfoOpen}
                 setPopupInfoMessage={setPopupInfoMessage}
+                isMoviesLoadState={isMoviesLoadState}
+                setIsMoviesLoadState={setIsMoviesLoadState}
               />
             }
           />

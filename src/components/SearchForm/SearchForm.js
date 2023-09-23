@@ -13,7 +13,9 @@ function SearchForm({
   moviesAfterFilter,
   setIsDownload,
   setIsPopupInfoOpen,
-  setPopupInfoMessage
+  setPopupInfoMessage,
+  isMoviesLoadState,
+  setIsMoviesLoadState
 }) {
   const {
     register,
@@ -40,6 +42,7 @@ function SearchForm({
         setIsShortSwitchOn(isShort || false);
 
         setValue('movie', text || '');
+        setIsMoviesLoadState(1);
       }
 
       const filterValue = getValues('movie');
@@ -103,32 +106,38 @@ function SearchForm({
   }
 
   function onSwitcherShortClick() {
+    if (isMoviesLoadState === 0) {
+      setIsMoviesLoadState(1);
+    }
     saveSearchResult(!isShortSwitchOn);
     setIsShortSwitchOn(!isShortSwitchOn);
 
-    setIsDownload(true);
-    setTimeout(function () {
-      setIsDownload(false);
-      if (moviesAfterFilter.length === 0) {
-        setPopupInfoMessage('Фильмы с указанными параметрами поиска отсутствуют');
-        setIsPopupInfoOpen(true);
-      }
-    }, 1000);
+    // setIsDownload(true);
+    // setTimeout(function () {
+    //   setIsDownload(false);
+    if (moviesAfterFilter.length === 0) {
+      setPopupInfoMessage('Фильмы с указанными параметрами поиска отсутствуют');
+      setIsPopupInfoOpen(true);
+    }
+    // }, 1000);
   }
 
   function onSubmit(data) {
+    if (isMoviesLoadState === 0) {
+      setIsMoviesLoadState(1);
+    }
     setIsDownload(true);
     const result = isShortSwitchOn
       ? findMoviesByKey(findShortMovies(movies), data.movie)
       : findMoviesByKey(movies, data.movie);
 
-    setTimeout(function () {
-      setIsDownload(false);
-      if (result.length === 0) {
-        setPopupInfoMessage('Фильмы с указанными параметрами поиска отсутствуют');
-        setIsPopupInfoOpen(true);
-      }
-    }, 1000);
+    // setTimeout(function () {
+    setIsDownload(false);
+    if (result.length === 0) {
+      setPopupInfoMessage('Фильмы с указанными параметрами поиска отсутствуют');
+      setIsPopupInfoOpen(true);
+    }
+    // }, 1000);
 
     saveSearchResult(isShortSwitchOn);
     setMoviesAfterFilter(result);

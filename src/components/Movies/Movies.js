@@ -22,7 +22,9 @@ function Movies({
   width,
   onBurgerClick,
   setIsPopupInfoOpen,
-  setPopupInfoMessage
+  setPopupInfoMessage,
+  isMoviesLoadState,
+  setIsMoviesLoadState
 }) {
   //   const [moviesList, setMoviesList] = useState({});
   //   useEffect(() => {
@@ -43,6 +45,8 @@ function Movies({
           setIsDownload={setIsDownload}
           setIsPopupInfoOpen={setIsPopupInfoOpen}
           setPopupInfoMessage={setPopupInfoMessage}
+          isMoviesLoadState={isMoviesLoadState}
+          setIsMoviesLoadState={setIsMoviesLoadState}
         />
         {isDownload ? (
           <Preloader />
