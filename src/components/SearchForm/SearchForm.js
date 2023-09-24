@@ -43,10 +43,9 @@ function SearchForm({
         setIsShortSwitchOn(isShort || false);
 
         setValue('movie', text || '');
-        if (isMoviesLoadState === 0) {
+        if (isMoviesLoadState === 0 && text !== '') {
           setIsMoviesLoadState(1);
         }
-        // setIsSearchOn(true);
       }
 
       const filterValue = getValues('movie');
@@ -63,43 +62,48 @@ function SearchForm({
   }, []);
 
   useEffect(() => {
+    if (isSearchOn) {
+      const filterValue = getValues('movie');
+      startFilter(filterValue, movies, isShortSwitchOn);
+    }
+
+    // eslint-disable-next-line
+  }, [isSearchOn]);
+
+  useEffect(() => {
+    if (isSearchOn) {
+      if (moviesAfterFilter.length === 0 && (isMoviesLoadState === 2 || isSavedMovies)) {
+        setPopupInfoMessage('Фильмы с указанными параметрами поиска отсутствуют');
+        setIsPopupInfoOpen(true);
+
+        setIsSearchOn(false);
+      } else {
+        setIsSearchOn(false);
+      }
+    }
+    // eslint-disable-next-line
+  }, [moviesAfterFilter]);
+
+  useEffect(() => {
     const filterValue = getValues('movie');
 
     startFilter(filterValue, movies, isShortSwitchOn);
     // eslint-disable-next-line
   }, [movies]);
 
-  useEffect(() => {
-    const filterValue = getValues('movie');
-    startFilter(filterValue, movies, isShortSwitchOn);
-
-    // eslint-disable-next-line
-  }, [isShortSwitchOn]);
-
   function startFilter(textFilter, arrayMovies, isShort) {
     const result = isShort
       ? findMoviesByKey(findShortMovies(arrayMovies), textFilter)
       : findMoviesByKey(arrayMovies, textFilter);
 
-    !isSavedMovies && textFilter.length ? setMoviesAfterFilter([]) : setMoviesAfterFilter(result);
-
-    if (isSearchOn && result.length === 0) {
-      setPopupInfoMessage('Фильмы с указанными параметрами поиска отсутствуют');
-      setIsPopupInfoOpen(true);
-      setIsSearchOn(false);
-    }
-    //  else if (isMoviesLoadState === 0) {
-    //   setIsSearchOn(true);
-    // }
-    else {
-      setIsSearchOn(false);
-    }
+    !isSavedMovies && textFilter === '' ? setMoviesAfterFilter([]) : setMoviesAfterFilter(result);
   }
 
   function findShortMovies(moviesArray) {
     const result = moviesArray.filter(item => {
       return item.duration <= SHORT_MOVIE_DURATION;
     });
+
     return result;
   }
   function findMoviesByKey(moviesArray, textSearch) {
@@ -114,44 +118,36 @@ function SearchForm({
   }
 
   function saveSearchResult(isShort) {
-    if (!isSavedMovies) {
+    if (!isSavedMovies && getValues('movie') !== '') {
       localStorage.setItem('search', JSON.stringify({ text: getValues('movie'), isShort }));
     }
   }
 
   function onSwitcherShortClick() {
-    if (isMoviesLoadState === 0) {
-      setIsMoviesLoadState(1);
-    }
-    saveSearchResult(!isShortSwitchOn);
     setIsShortSwitchOn(!isShortSwitchOn);
+    if (!isSavedMovies && getValues('movie') !== '') {
+      if (isMoviesLoadState === 0) {
+        setIsMoviesLoadState(1);
+      }
 
-    if (moviesAfterFilter.length === 0) {
-      setPopupInfoMessage('Фильмы с указанными параметрами поиска отсутствуют');
-      setIsPopupInfoOpen(true);
+      setIsSearchOn(true);
+      saveSearchResult(!isShortSwitchOn);
+    } else if (isSavedMovies) {
+      setIsSearchOn(true);
     }
-    setIsSearchOn(true);
   }
 
   function onSubmit(data) {
-    if (isMoviesLoadState === 0) {
-      setIsMoviesLoadState(1);
-    }
-    // setIsDownload(true);
-    const result = isShortSwitchOn
-      ? findMoviesByKey(findShortMovies(movies), data.movie)
-      : findMoviesByKey(movies, data.movie);
+    if (!isSavedMovies && getValues('movie') !== '') {
+      if (isMoviesLoadState === 0) {
+        setIsMoviesLoadState(1);
+      }
 
-    // setTimeout(function () {
-    // setIsDownload(false);
-    if (result.length === 0) {
-      setPopupInfoMessage('Фильмы с указанными параметрами поиска отсутствуют');
-      setIsPopupInfoOpen(true);
+      setIsSearchOn(true);
+      saveSearchResult(!isShortSwitchOn);
+    } else if (isSavedMovies) {
+      setIsSearchOn(true);
     }
-    // }, 1000);
-    setIsSearchOn(true);
-    saveSearchResult(isShortSwitchOn);
-    setMoviesAfterFilter(result);
   }
 
   return (
