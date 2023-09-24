@@ -161,6 +161,7 @@ function SearchForm({
               type='text'
               className='search-form__input'
               placeholder='Фильм'
+              disabled={isSearchOn}
               //   value={`${currentUser.name}`}
               {...register('movie', {
                 required: 'Ввведите ключ для поиска'
@@ -170,7 +171,7 @@ function SearchForm({
 
           <button
             type='submit'
-            disabled={!isValid}
+            disabled={!isValid || isSearchOn}
             className='search-form__button-find opacity-button'
           >
             Найти
