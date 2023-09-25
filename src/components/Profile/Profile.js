@@ -6,16 +6,18 @@ import { useForm } from 'react-hook-form';
 // import { Link } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-function Profile({ isLoggedIn, isBurger, onBurgerClick }) {
+function Profile({ onLogout, onEdit, isBurger, onBurgerClick }) {
+  const isLoggedIn = true;
   const {
     register,
 
     formState: { errors, isValid },
     handleSubmit,
-
-    setValue
+    reset,
+    setValue,
+    getValues
   } = useForm({
-    mode: 'onBlur'
+    mode: 'all'
   });
 
   const [isEditMode, setIsEditMode] = useState(false);
@@ -27,12 +29,16 @@ function Profile({ isLoggedIn, isBurger, onBurgerClick }) {
     setIsEditMode(true);
     evt.preventDefault();
   }
-  function onLogoutClick(data) {
-    console.log('нажата клавиша выйти из аккаунта');
-
+  function onLogoutClick() {
+    // console.log('нажата клавиша выйти из аккаунта');
+    onLogout();
     // setIsEditMode(true);
   }
-  const onSubmit = data => setIsEditMode(false);
+  function onSubmit(data) {
+    setIsEditMode(false);
+    onEdit(data);
+    reset();
+  }
 
   useEffect(() => {
     setValue('name', currentUser.name);
@@ -61,7 +67,9 @@ function Profile({ isLoggedIn, isBurger, onBurgerClick }) {
                   minLength: {
                     value: 3,
                     message: 'Введите имя длинной от 3 символов'
-                  }
+                  },
+                  validate: value =>
+                    getValues('email') !== currentUser.email || value !== currentUser.name || ''
                 })}
               />
               <div className='profile__input-error'>
@@ -86,7 +94,9 @@ function Profile({ isLoggedIn, isBurger, onBurgerClick }) {
                       // eslint-disable-next-line
                       /^(?:[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/,
                     message: 'Введенный  E-mail не допустим.'
-                  }
+                  },
+                  validate: value =>
+                    getValues('name') !== currentUser.name || value !== currentUser.email || ''
                 })}
               />
               <div className='profile__input-error'>

@@ -1,12 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import './MoviesCard.css';
+import mainApi from '../../utils/MainApi.';
 
-function MoviesCard({ name, duration, imgLink }) {
+function MoviesCard({ movieCard, savedMovies, addItemSavedMovies, removeItemSavedMovies }) {
   const currentLocation = useLocation();
   const [isLiked, setIsLiked] = useState(false);
 
   const isSavedMovies = currentLocation.pathname === '/saved-movies';
+
+  //const found = arr.some(el => el === 3);
+
+  useEffect(() => {
+    if (!isSavedMovies) {
+      savedMovies.some(savedMovie => savedMovie.movieId === movieCard.movieId)
+        ? setIsLiked(true)
+        : setIsLiked(false);
+    } // eslint-disable-next-line
+  }, []);
 
   const convertMinutesToHoursAndMinutes = time => {
     const hours = Math.floor(time / 60);
@@ -18,17 +29,53 @@ function MoviesCard({ name, duration, imgLink }) {
     return durationString;
   };
   function onSavedClick() {
-    setIsLiked(!isLiked);
-    console.log('isLiked'); //не забыть убрать
+    isSavedMovies
+      ? mainApi
+          .removeMovieById(movieCard.movieId)
+          .then(() => {
+            removeItemSavedMovies(movieCard);
+          })
+          .catch(err => {
+            console.log(err);
+          })
+      : isLiked
+      ? mainApi
+          .removeMovieById(movieCard.movieId)
+          .then(() => {
+            removeItemSavedMovies(movieCard);
+            setIsLiked(false);
+          })
+          .catch(err => {
+            console.log(err);
+          })
+      : mainApi
+          .addNewMovie(movieCard)
+          .then(() => {
+            setIsLiked(true);
+            addItemSavedMovies(movieCard);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+
+    // setIsLiked(!isLiked);
   }
+
   return (
     <div className='movies-card'>
       <div className='movies-card__img-container'>
-        <img src={imgLink} alt={name} className='movies-card__img' />
+        <a
+          href={movieCard.trailerLink}
+          target='_blank'
+          rel='noreferrer'
+          className='portfolio-link opacity-link'
+        >
+          <img src={movieCard.image} alt={movieCard.nameRU} className='movies-card__img' />
+        </a>
       </div>
 
       <div className='movies-card__container'>
-        <h2 className='movies-card__title'>{name}</h2>
+        <h2 className='movies-card__title'>{movieCard.nameRU}</h2>
 
         <button
           type='button'
@@ -42,7 +89,10 @@ function MoviesCard({ name, duration, imgLink }) {
           }`}
         />
       </div>
-      <p className='movies-card__duration'> {convertMinutesToHoursAndMinutes(duration)}</p>
+      <p className='movies-card__duration'>
+        {' '}
+        {convertMinutesToHoursAndMinutes(movieCard.duration)}
+      </p>
     </div>
   );
 }

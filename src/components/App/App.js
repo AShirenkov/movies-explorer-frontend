@@ -1,17 +1,11 @@
 import { useState, useEffect, useLayoutEffect } from 'react';
 
 import { Route, Routes } from 'react-router-dom';
+import { baseUrl } from '../../utils/constants';
 
-// import { useNavigate, Navigate } from 'react-router-dom';
-
-// import { useWindowSize } from 'react-hooks';
-
-//import logo from './logo.svg';
-//import './App.css';
-
-// import Header from '../Header/Header';
+import MoviesRoute from '../MoviesRoute/MoviesRoute';
 import Main from '../Main/Main';
-// import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
 import Profile from '../Profile/Profile';
@@ -19,106 +13,284 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 
+import authApi from '../../utils/AuthApi';
+import moviesApi from '../../utils/MoviesApi';
+import mainApi from '../../utils/MainApi.';
+
+import PopupInfo from '../PopupInfo/PopupInfo';
+
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import PopupNavi from '../PopupNavi/PopupNavi';
 
+import { useNavigate } from 'react-router-dom';
+
 function App() {
-  const [isLoggedIn, setLoggedIn] = useState(true);
+  const [isLoggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [isBurger, setIsBurger] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [countCard, setCountCard] = useState(16);
+
+  const [isPopupInfoOpen, setIsPopupInfoOpen] = useState(false);
+  const [popupInfoMessage, setPopupInfoMessage] = useState('');
+
+  const [movies, setMovies] = useState([]);
+  const [savedMovies, setSavedMovies] = useState([]);
 
   const [width, setWidth] = useState(window.innerWidth);
 
-  // const navigate = useNavigate();
+  const [isDownload, setIsDownload] = useState(false);
+  const [isDownloadSaved, setIsDownloadSaved] = useState(false);
+
+  const [isMoviesLoadState, setIsMoviesLoadState] = useState(0);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    checkToken();
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    if (isMoviesLoadState === 1) {
+      setIsDownload(true);
+      moviesApi
+        .getMovies()
+
+        .then(moviesList => {
+          setMovies(slimMovies(moviesList));
+          setIsMoviesLoadState(2);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => setIsDownload(false));
+    }
+  }, [isMoviesLoadState]);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setIsDownloadSaved(true);
+      Promise.all([authApi.getMyUser(), mainApi.getMovies()])
+        .then(([userInfo, savedMovies]) => {
+          setCurrentUser(userInfo);
+          setSavedMovies(savedMovies);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => setIsDownloadSaved(false));
+    }
+  }, [isLoggedIn]);
 
   useLayoutEffect(() => {
     function updateSize() {
-      setWidth(window.innerWidth);
-      setCountCard(width > 900 ? 16 : width > 450 ? 8 : 5);
-      setIsBurger(width > 900 ? false : true);
+      setTimeout(function () {
+        setWidth(window.innerWidth);
+
+        setIsBurger(window.innerWidth > 900 ? false : true);
+      }, 1000);
     }
     updateSize();
 
     window.addEventListener('resize', updateSize);
     return () => window.removeEventListener('resize', updateSize);
-  }, [width]);
-
-  useEffect(() => {
-    setCurrentUser({ name: 'Виталий', email: 'pochta@yandex.ru' });
-    setLoggedIn(true);
   }, []);
+
+  function slimMovies(movies) {
+    return movies.map(movie => ({
+      country: movie.country,
+      director: movie.director,
+      duration: movie.duration,
+      year: movie.year,
+      description: movie.description,
+      image: `${baseUrl}${movie.image.url}`,
+      trailerLink: movie.trailerLink,
+      thumbnail: `${baseUrl}${movie.image.formats.thumbnail.url}`,
+      movieId: movie.id,
+
+      nameRU: movie.nameRU,
+      nameEN: movie.nameEN
+    }));
+  }
+
+  function addItemSavedMovies(newMovie) {
+    const updatedData = [...savedMovies, newMovie];
+    updatedData.sort((a, b) => a.movieId - b.movieId);
+    setSavedMovies(updatedData);
+  }
+  function removeItemSavedMovies(removeMovie) {
+    const updatedData = savedMovies.filter(item => item.movieId !== removeMovie.movieId);
+
+    setSavedMovies(updatedData);
+  }
+  function handleRegister({ password, email, name }) {
+    authApi
+      .register(password, email, name)
+
+      .then(values => {
+        // setSuccessInfoTooltipStatus(true);
+        // setIsInfoTooltipPopupOpen(true);
+        handleLogin({ password, email });
+        // navigate('/movies');
+      })
+      .catch(err => {
+        // setSuccessInfoTooltipStatus(false);
+        // setIsInfoTooltipPopupOpen(true);
+        setPopupInfoMessage(err.message);
+        setIsPopupInfoOpen(true);
+        console.log(err.message);
+      });
+  }
+
+  function handleLogin({ password, email }) {
+    authApi
+      .login(password, email)
+      .then(values => {
+        localStorage.setItem('token', values.token);
+        setLoggedIn(true);
+
+        // setCurrentEmail(email);
+        navigate('/movies');
+      })
+      .catch(err => {
+        setIsPopupInfoOpen(true);
+        setPopupInfoMessage(err.message);
+      });
+  }
+
+  function checkToken() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      authApi
+        .checkToken(token)
+        .then(values => {
+          setCurrentUser({ name: values.name, email: values.email });
+          setLoggedIn(true);
+          // navigate('/movies');
+        })
+        .catch(err => {
+          setLoggedIn(false);
+          console.log(err);
+        });
+    } else {
+      navigate('/');
+    }
+  }
+
+  function handleLogout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('search');
+    setLoggedIn(false);
+    setIsMoviesLoadState(0);
+    navigate('/');
+  }
+  function handleUpdateUser(objUser) {
+    authApi
+      .setUserInfo(objUser)
+      .then(values => {
+        setCurrentUser(values);
+        setIsPopupInfoOpen(true);
+        setPopupInfoMessage('Пользовательские данные обновлены');
+      })
+      .catch(err => {
+        setIsPopupInfoOpen(true);
+        setPopupInfoMessage('Ошибка обновления пользовательских данных');
+      });
+  }
 
   function handlePopupOpen() {
     setIsPopupOpen(true);
   }
   function handlePopupClose() {
     setIsPopupOpen(false);
+    setIsPopupInfoOpen(false);
   }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className='page'>
         <Routes>
-          {/* <Route
-            path='/'
-            element={
-              <ProtectedRoute
-                element={Main}
-                isLoggedIn={isLoggedIn}
-               
-              />
-            }
-          /> */}
           <Route
             path='/'
             element={
               <Main isLoggedIn={isLoggedIn} isBurger={isBurger} onBurgerClick={handlePopupOpen} />
             }
           />
-          {/* <Route path='/sign-up' element={<Register onRegister={handleRegister} />} />
-          <Route path='/sign-in' element={<Login onLogin={handleLogin} />} /> */}
 
-          <Route path='/signup' element={<Register />} />
-          <Route path='/signin' element={<Login />} />
+          <Route
+            path='/signup'
+            element={
+              <MoviesRoute element={Register} isLoggedIn={isLoggedIn} onRegister={handleRegister} />
+            }
+          />
+          <Route
+            path='/signin'
+            element={<MoviesRoute element={Login} isLoggedIn={isLoggedIn} onLogin={handleLogin} />}
+          />
+
           <Route
             path='/profile'
             element={
-              <Profile
+              <ProtectedRoute
+                element={Profile}
                 isLoggedIn={isLoggedIn}
                 isBurger={isBurger}
                 onBurgerClick={handlePopupOpen}
+                onLogout={handleLogout}
+                onEdit={handleUpdateUser}
               />
             }
           />
           <Route
             path='/movies'
             element={
-              <Movies
+              <ProtectedRoute
+                element={Movies}
                 isLoggedIn={isLoggedIn}
+                isDownload={isDownload}
+                isDownloadSaved={isDownloadSaved}
+                movies={movies}
+                savedMovies={savedMovies}
+                addItemSavedMovies={addItemSavedMovies}
+                removeItemSavedMovies={removeItemSavedMovies}
                 isBurger={isBurger}
-                countCard={countCard}
                 onBurgerClick={handlePopupOpen}
+                width={width}
+                setIsPopupInfoOpen={setIsPopupInfoOpen}
+                setPopupInfoMessage={setPopupInfoMessage}
+                isMoviesLoadState={isMoviesLoadState}
+                setIsMoviesLoadState={setIsMoviesLoadState}
               />
             }
           />
           <Route
             path='/saved-movies'
             element={
-              <SavedMovies
+              <ProtectedRoute
+                element={SavedMovies}
                 isLoggedIn={isLoggedIn}
+                isDownload={isDownload}
+                movies={movies}
+                savedMovies={savedMovies}
+                addItemSavedMovies={addItemSavedMovies}
+                removeItemSavedMovies={removeItemSavedMovies}
                 isBurger={isBurger}
-                countCard={countCard}
                 onBurgerClick={handlePopupOpen}
+                width={width}
+                setIsPopupInfoOpen={setIsPopupInfoOpen}
+                setPopupInfoMessage={setPopupInfoMessage}
               />
             }
           />
+
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
         <PopupNavi onButtonCloseClick={handlePopupClose} isPopupOpen={isPopupOpen} />
-        {/* <Header>test</Header> */}
-        {/* <Main /> */}
+        <PopupInfo
+          onButtonCloseClick={handlePopupClose}
+          isOpened={isPopupInfoOpen}
+          infoMessage={popupInfoMessage}
+        />
       </div>
     </CurrentUserContext.Provider>
   );

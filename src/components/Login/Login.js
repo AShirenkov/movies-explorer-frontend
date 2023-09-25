@@ -3,18 +3,25 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import React from 'react';
-function Login() {
+function Login({ onLogin }) {
   const {
     register,
 
     formState: { errors, isValid },
-    handleSubmit,
-    reset
+    handleSubmit
+    //reset
   } = useForm({
-    mode: 'onBlur'
+    mode: 'all'
   });
 
-  const onSubmit = data => reset();
+  function onSubmit(data) {
+    // console.log(data);
+
+    onLogin(data);
+    // evt.preventDefault();
+    // reset();
+  }
+
   return (
     <div className='login'>
       <Link className='login__logo' to='/'>

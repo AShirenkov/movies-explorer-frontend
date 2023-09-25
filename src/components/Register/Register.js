@@ -3,18 +3,27 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import React from 'react';
-function Register() {
+function Register({ onRegister }) {
   const {
     register,
 
     formState: { errors, isValid },
-    handleSubmit,
-    reset
+    handleSubmit
+    //reset
   } = useForm({
-    mode: 'onBlur'
+    mode: 'all'
   });
 
-  const onSubmit = data => reset();
+  // const onSubmit = data => reset();
+  function onSubmit(data) {
+    console.log(data);
+    // const { name, email, password } = data;
+
+    onRegister(data);
+    // evt.preventDefault();
+    // reset();
+  }
+
   return (
     <div className='register'>
       <Link className='register__logo' to='/'>
@@ -28,7 +37,7 @@ function Register() {
           <input
             type='text'
             className='register__input register__input_type_name'
-            placeholder='Виталий'
+            placeholder='Имя'
             {...register('name', {
               required: 'Поле обязательно к заполнению.',
               minLength: {
@@ -44,7 +53,7 @@ function Register() {
         <div>
           <p className='register__input-label'>E-mail</p>
           <input
-            type='text'
+            type='email'
             className='register__input'
             placeholder='E-mail'
             {...register('email', {

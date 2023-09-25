@@ -109,6 +109,12 @@
   }
 }
 
+@media (max-width: 767px) {
+  .movies-card__button_mode_remove-save {
+    opacity: 1;
+  }
+}
+
 @media (max-width: 450px) {
   .movies-card__img {
     max-height: 168px;
@@ -118,5 +124,8 @@
   }
   .movies-card {
     gap: 12px;
+  }
+  .movies-card__remove-button {
+    opacity: 1;
   }
 }

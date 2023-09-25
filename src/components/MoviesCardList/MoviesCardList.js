@@ -1,34 +1,69 @@
 // import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useLayoutEffect } from 'react';
 
+import { useLocation } from 'react-router-dom';
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
-import { baseUrl } from '../../utils/constants';
 
-function MoviesCardList({ moviesList, countCard }) {
-  //   let countCardInitial = width > 900 ? 16 : width > 450 ? 8 : 5;
-  //   let countCardForAddition = width > 900 ? 16 : width > 450 ? 8 : 4;
+import {
+  CARD_COUNT_FOUR_IN_ROW,
+  CARD_COUNT_THREE_IN_ROW,
+  CARD_COUNT_TWO_IN_ROW,
+  CARD_COUNT_ONE_IN_ROW,
+  CARD_ADD_FOUR_IN_ROW,
+  CARD_ADD_THREE_IN_ROW,
+  CARD_ADD_TWO_IN_ROW,
+  CARD_ADD_ONE_IN_ROW,
+  WIDTH_THREE_CARD,
+  WIDTH_TWO_CARD,
+  WIDTH_ONE_CARD
+} from '../../utils/constants.js';
 
-  const [isMoviesFinished, setIsMoviesFinished] = useState(false);
+function MoviesCardList({
+  moviesList,
+  savedMovies,
+  addItemSavedMovies,
+  removeItemSavedMovies,
+  width
+}) {
+  const currentLocation = useLocation();
 
-  const [countCardInitial, setCountCardInitial] = useState(countCard);
-  const [countCards, setCountCards] = useState(countCardInitial);
+  const [countCards, setCountCards] = useState(0);
+  const [countCardsAdd, setCountCardsAdd] = useState(0);
 
-  useEffect(() => {
-    if (moviesList.length < countCards) {
-      setIsMoviesFinished(true);
+  const isSavedMovies = currentLocation.pathname === '/saved-movies';
+
+  useLayoutEffect(() => {
+    setCountCards(
+      width > WIDTH_THREE_CARD
+        ? CARD_COUNT_FOUR_IN_ROW
+        : width > WIDTH_TWO_CARD
+        ? CARD_COUNT_THREE_IN_ROW
+        : width > WIDTH_ONE_CARD
+        ? CARD_COUNT_TWO_IN_ROW
+        : CARD_COUNT_ONE_IN_ROW
+    );
+    setCountCardsAdd(
+      width > WIDTH_THREE_CARD
+        ? CARD_ADD_FOUR_IN_ROW
+        : width > WIDTH_TWO_CARD
+        ? CARD_ADD_THREE_IN_ROW
+        : width > WIDTH_ONE_CARD
+        ? CARD_ADD_TWO_IN_ROW
+        : CARD_ADD_ONE_IN_ROW
+    );
+
+    if (moviesList.length - 1 < countCards || isSavedMovies) {
+      setCountCards(moviesList.length);
     } // eslint-disable-next-line
-  }, []);
-  useEffect(() => {
-    setCountCardInitial(countCard);
-  }, [countCard]);
+  }, [moviesList]);
 
   function onAddClick() {
-    if (moviesList.length < countCards + countCardInitial) {
-      setIsMoviesFinished(true);
+    if (moviesList.length < countCards + countCardsAdd) {
+      // setIsMoviesFinished(true);
       setCountCards(moviesList.length);
     } else {
-      setCountCards(countCards + countCardInitial);
+      setCountCards(countCards + countCardsAdd);
     }
   }
   return (
@@ -36,14 +71,15 @@ function MoviesCardList({ moviesList, countCard }) {
       <div className='movies__list'>
         {moviesList.slice(0, countCards).map(movieCard => (
           <MoviesCard
-            key={movieCard.id}
-            name={movieCard.nameRU}
-            duration={movieCard.duration}
-            imgLink={`${baseUrl}${movieCard.image.url}`}
+            key={movieCard.movieId}
+            movieCard={movieCard}
+            savedMovies={savedMovies}
+            addItemSavedMovies={addItemSavedMovies}
+            removeItemSavedMovies={removeItemSavedMovies}
           />
         ))}
       </div>
-      {!isMoviesFinished && (
+      {moviesList.length - 1 > countCards && !isSavedMovies && (
         <button className='movies__add-button opacity-button' onClick={onAddClick}>
           Ещё
         </button>

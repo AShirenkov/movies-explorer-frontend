@@ -18,6 +18,12 @@
   color: #ffffff;
 }
 
+.not-found__button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
 .not-found__text_type_description {
   margin-top: 5px;
   font-size: 16px;
